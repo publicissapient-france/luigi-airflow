@@ -7,11 +7,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 class MainClass:
     @staticmethod
     def main():
-        local_path = "/home/dolounet/dev/workshops/"
-
-        local_filename = "Speed_Dating_Data.csv"
-
-        raw_dataset = pd.read_csv(local_path + local_filename, encoding="ISO-8859-1")
+        raw_dataset = MainClass.read_dataframe(workspace="/home/dolounet/dev/workshops/")
 
         my_variables_selection = ["iid", "pid", "match", "gender", "date", "go_out", "sports", "tvsports", "exercise",
                                   "dining",
@@ -23,8 +19,8 @@ class MainClass:
                          "hiking", "gaming", "clubbing", "reading", "tv", "theater", "movies", "concerts", "music",
                          "shopping", "yoga"])
 
-        raw_set = RawSetProcessing(local_path, local_filename, my_variables_selection)
-        dataset_df = raw_set.combiner_pipeline()
+        raw_dataset = RawSetProcessing(my_variables_selection, dataframe=raw_dataset)
+        dataset_df = raw_dataset.combiner_pipeline()
 
         suffix_me = "_me"
         suffix_partner = "_partner"
@@ -71,21 +67,19 @@ class MainClass:
             print(classification_report(y_true, y_pred))
             print("")
 
+    @staticmethod
+    def read_dataframe(workspace):
+        return pd.read_csv(workspace + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
+
 
 class RawSetProcessing(object):
     """
     This class aims to load and clean the dataset.
     """
 
-    def __init__(self, source_path, filename, features):
-        self.source_path = source_path
-        self.filename = filename
+    def __init__(self, features, dataframe):
         self.features = features
-
-    # Load data
-    def load_data(self):
-        raw_dataset_df = pd.read_csv(self.source_path + self.filename, encoding="ISO-8859-1")
-        return raw_dataset_df
+        self.dataframe = dataframe
 
     # Select variables to process and include in the model
     def subset_features(self, df):
@@ -105,7 +99,7 @@ class RawSetProcessing(object):
 
     # Combine processing stages
     def combiner_pipeline(self):
-        raw_dataset = self.load_data()
+        raw_dataset = self.dataframe
         subset_df = self.subset_features(raw_dataset)
         subset_no_dup_df = self.drop_duplicated_values(subset_df)
         subset_filled_df = self.remove_ids_with_missing_values(subset_no_dup_df)
