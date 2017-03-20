@@ -6,10 +6,12 @@ from sklearn.model_selection import train_test_split
 
 
 class MainClass:
-    @staticmethod
-    def main():
+    def __init__(self, workspace="/home/dolounet/dev/workshops/"):
+        self.workspace = workspace
+
+    def main(self):
         # TODO make workspace configurable from luigi.cfg
-        raw_dataset = MainClass.read_dataframe(workspace="/home/dolounet/dev/workshops/")
+        raw_dataset = MainClass.read_dataframe(workspace=self.workspace)
 
         # TODO make variables externalized
         my_variables_selection = ["iid", "pid", "match", "gender", "date", "go_out", "sports", "tvsports", "exercise",
