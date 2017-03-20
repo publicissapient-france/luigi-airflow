@@ -74,9 +74,7 @@ def get_partner_features(df, suffix_1, suffix_2, ignore_vars=True):
         df_partner = df_partner.drop(['pid', 'match'], 1).drop_duplicates()
     else:
         df_partner = df_partner.copy()
-    # print df_partner.shape
     merged_datasets = df.merge(df_partner, how="inner", left_on="pid", right_on="iid", suffixes=(suffix_1, suffix_2))
-    # print merged_datasets[merged_datasets["iid_me"] == 1]
     return merged_datasets
 
 
