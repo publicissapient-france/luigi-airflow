@@ -11,7 +11,7 @@ class MainClass:
 
     def main(self):
         # TODO make workspace configurable from luigi.cfg
-        raw_dataset = MainClass.read_dataframe(self=self.workspace)
+        raw_dataset = self.read_dataframe()
 
         # TODO make variables externalized
         my_variables_selection = ["iid", "pid", "match", "gender", "date", "go_out", "sports", "tvsports", "exercise",
@@ -64,7 +64,6 @@ class MainClass:
         # Train
         train = Trainer(x_train, y_train, x_test, y_test, best_parameters)
         estimator, score_train, score_test = train.combiner_pipeline()
-
 
     def read_dataframe(self):
         return pd.read_csv(self.workspace + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
@@ -166,10 +165,10 @@ class TuneParameters:
         self.scores = scores
 
     def create_train_test_splits(self):
-        X_train, X_test, y_train, y_test = train_test_split(self.explanatory_vars, self.explained_var,
+        x_train, x_test, y_train, y_test = train_test_split(self.explanatory_vars, self.explained_var,
                                                             test_size=0.5, random_state=0,
                                                             stratify=self.explained_var)
-        return X_train, X_test, y_train, y_test
+        return x_train, x_test, y_train, y_test
 
     def tuning_parameters(self, trainset_x, testset_x, trainset_y, testset_y):
         for score in self.scores:
@@ -192,16 +191,16 @@ class TuneParameters:
             return best_parameters
 
     def combiner_pipeline(self):
-        X_train, X_test, y_train, y_test = self.create_train_test_splits()
-        best_params = self.tuning_parameters(X_train, X_test, y_train, y_test)
+        x_train, x_test, y_train, y_test = self.create_train_test_splits()
+        best_params = self.tuning_parameters(x_train, x_test, y_train, y_test)
         return best_params
 
 
 class Trainer:
     def __init__(self, x_train, y_train, x_test, y_test, best_params):
-        self.X_train = x_train
+        self.x_train = x_train
         self.y_train = y_train
-        self.X_test = x_test
+        self.x_test = x_test
         self.y_test = y_test
         self.estimator = None
         self.best_params = best_params
@@ -209,14 +208,14 @@ class Trainer:
     def build_best_estimator(self):
         params = self.best_params
         model = ensemble.RandomForestClassifier(**params)
-        self.estimator = model.fit(self.X_train, self.y_train)
+        self.estimator = model.fit(self.x_train, self.y_train)
         return self.estimator
 
     def score_estimator_train(self):
-        return self.estimator.score(self.X_train, self.y_train)
+        return self.estimator.score(self.x_train, self.y_train)
 
     def score_estimator_test(self):
-        return self.estimator.score(self.X_test, self.y_test)
+        return self.estimator.score(self.x_test, self.y_test)
 
     def combiner_pipeline(self):
         self.estimator = self.build_best_estimator()
