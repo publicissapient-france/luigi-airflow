@@ -68,7 +68,6 @@ suffix_partner = "_partner"
 
 
 def get_partner_features(df, suffix_1, suffix_2, ignore_vars=True):
-    # print df[df["iid"] == 1]
     df_partner = df.copy()
     if ignore_vars is True:
         df_partner = df_partner.drop(['pid', 'match'], 1).drop_duplicates()
