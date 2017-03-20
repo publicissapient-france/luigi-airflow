@@ -57,7 +57,6 @@ class MainClass:
         train = Trainer(x_train, y_train, x_test, y_test, best_parameters)
         estimator, score_train, score_test = train.combiner_pipeline()
 
-
     @staticmethod
     def read_dataframe(workspace):
         return pd.read_csv(workspace + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
@@ -196,14 +195,14 @@ class Trainer:
     def build_best_estimator(self):
         params = self.best_params
         model = ensemble.RandomForestClassifier(**params)
-        self.estimator = model.fit(self.X_train,self.y_train)
+        self.estimator = model.fit(self.X_train, self.y_train)
         return self.estimator
 
     def score_estimator_train(self):
-        return self.estimator.score(self.X_train,self.y_train)
+        return self.estimator.score(self.X_train, self.y_train)
 
     def score_estimator_test(self):
-        return self.estimator.score(self.X_test,self.y_test)
+        return self.estimator.score(self.X_test, self.y_test)
 
     def combiner_pipeline(self):
         self.estimator = self.build_best_estimator()
