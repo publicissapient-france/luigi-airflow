@@ -3,17 +3,33 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 
 
 class TuneParameters:
-    def __init__(self, explanatory_vars, explained_var, estimator, parameters, scores):
-        self.explanatory_vars = explanatory_vars
-        self.explained_var = explained_var
+    def __init__(self, feat_eng_df, estimator, parameters, scores, features):
+        self.features = features
+        self.feat_eng_df = feat_eng_df
         self.estimator = estimator
         self.parameters = parameters
         self.scores = scores
 
+    def create_df_explained_explanatory(self, label):
+        features_model = self.process_features_names(self.features, "_me", "_partner")
+
+        # Tuning
+        explanatory = self.feat_eng_df[features_model]
+        explained = self.feat_eng_df[label]
+        return explanatory, explained
+
+
+    def process_features_names(self, features, suffix_1, suffix_2):
+        features_me = [feat + suffix_1 for feat in features]
+        features_partner = [feat + suffix_2 for feat in features]
+        features_all = features_me + features_partner
+        return features_all
+
     def create_train_test_splits(self):
-        x_train, x_test, y_train, y_test = train_test_split(self.explanatory_vars, self.explained_var,
+        explanatory, explained = self.create_df_explained_explanatory("match")
+        x_train, x_test, y_train, y_test = train_test_split(explanatory, explained,
                                                             test_size=0.5, random_state=0,
-                                                            stratify=self.explained_var)
+                                                            stratify=explained)
         return x_train, x_test, y_train, y_test
 
     def tuning_parameters(self, trainset_x, testset_x, trainset_y, testset_y):
