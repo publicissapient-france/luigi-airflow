@@ -37,13 +37,4 @@ class MainClass:
     def read_dataframe(self):
         return pd.read_csv(self.workspace + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
 
-    def process_features_names(self, features, suffix_1, suffix_2):
-        features_me = [feat + suffix_1 for feat in features]
-        features_partner = [feat + suffix_2 for feat in features]
-        features_all = features_me + features_partner
-        return features_all
-
-
-# add suffix to each element of list
-
 
