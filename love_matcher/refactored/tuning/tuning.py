@@ -1,6 +1,8 @@
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split, GridSearchCV
+import warnings
 
+warnings.filterwarnings("ignore")
 
 class TuneParameters:
     def __init__(self, feat_eng_df, estimator, parameters, scores, features):
@@ -37,7 +39,7 @@ class TuneParameters:
             print("# Tuning hyper-parameters for %s" % score)
             print("")
 
-            grid_rfc = GridSearchCV(self.estimator, self.parameters, n_jobs=100, cv=10, refit=True,
+            grid_rfc = GridSearchCV(self.estimator, self.parameters, n_jobs=100, cv=100, refit=False,
                                     scoring='%s_macro' % score)
             grid_rfc.fit(trainset_x, trainset_y)
 

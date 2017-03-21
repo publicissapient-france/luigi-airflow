@@ -10,7 +10,7 @@ from docs.conf import *
 
 class MainClass:
     # TODO make workspace configurable from luigi.cfg
-    def __init__(self, workspace="/home/dolounet/dev/workshops/"):
+    def __init__(self, workspace="/Users/sandrapietrowska/Documents/Trainings/luigi/data_source/"):
         self.workspace = workspace
 
     def main(self):
@@ -33,8 +33,13 @@ class MainClass:
         # Train
         train = Trainer(x_train, y_train, x_test, y_test, best_parameters)
         estimator, score_train, score_test = train.combiner_pipeline()
+        print (estimator, score_train, score_test)
 
     def read_dataframe(self):
         return pd.read_csv(self.workspace + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
+
+
+if __name__ == '__main__':
+    MainClass().main()
 
 
