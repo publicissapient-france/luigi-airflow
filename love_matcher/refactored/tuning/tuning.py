@@ -39,7 +39,7 @@ class TuneParameters:
             print("# Tuning hyper-parameters for %s" % score)
             print("")
 
-            grid_rfc = GridSearchCV(self.estimator, self.parameters, n_jobs=100, cv=100, refit=False,
+            grid_rfc = GridSearchCV(self.estimator, self.parameters, n_jobs=10, cv=100, refit=True,
                                     scoring='%s_macro' % score)
             grid_rfc.fit(trainset_x, trainset_y)
 

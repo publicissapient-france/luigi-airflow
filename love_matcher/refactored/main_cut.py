@@ -14,20 +14,23 @@ class MainClass:
         self.workspace = workspace
 
     def main(self):
-        raw_dataset = self.read_dataframe()
+        dataset = self.read_dataframe()
 
         # Preprocessing
-        raw_dataset = RawSetProcessing(my_variables_selection, dataframe=raw_dataset)
-        dataset_df = raw_dataset.combiner_pipeline()
+        raw_dataset = RawSetProcessing(my_variables_selection)
+        dataset_df = raw_dataset.combiner_pipeline(dataframe=dataset)
 
         # Feature engineering
         feature_engineering = FeatureEngineering()
         feat_eng_df = feature_engineering.get_partner_features(dataset_df)
 
         # TODO make random forest parameters externalized
-        rf_model = ensemble.RandomForestClassifier(n_estimators=5, oob_score=False)
+
+        rf_model = ensemble.RandomForestClassifier(n_estimators=5, class_weight="balanced", oob_score=False)
+
         tune = TuneParameters(feat_eng_df, rf_model, parameters, scores, features)
         best_parameters = tune.combiner_pipeline()
+
         x_train, x_test, y_train, y_test = tune.create_train_test_splits()
 
         # Train
