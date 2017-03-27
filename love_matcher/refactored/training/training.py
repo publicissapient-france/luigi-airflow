@@ -11,8 +11,7 @@ class Trainer:
         self.best_params = best_params
 
     def build_best_estimator(self):
-        params = self.best_params
-        model = ensemble.RandomForestClassifier(**params)
+        model = ensemble.RandomForestClassifier(**self.best_params)
         self.estimator = model.fit(self.x_train, self.y_train)
         return self.estimator
 

@@ -16,3 +16,5 @@ parameters = [
      }
 ]
 scores = ['precision', 'recall']
+
+best_parameters_file_path = "/home/dolounet/dev/workshops/luigi-airflow/output/best_parameters.json"

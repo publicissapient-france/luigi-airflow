@@ -51,8 +51,7 @@ class TuneParameters:
             print(classification_report(y_true, y_pred))
             print("")
 
-            best_parameters = grid_rfc.best_estimator_.get_params()
-            return best_parameters
+            return grid_rfc.best_estimator_.get_params()
 
     def combiner_pipeline(self):
         x_train, x_test, y_train, y_test = self.create_train_test_splits()
