@@ -6,7 +6,7 @@ class FeatureEngineering:
     This class aims to load and clean the dataset.
     """
 
-    def __init__(self, suffix_1 = "_me", suffix_2 = "_partner", label = "match_perc"):
+    def __init__(self, suffix_1="_me", suffix_2="_partner", label="match_perc"):
         self.suffix_1 = suffix_1
         self.suffix_2 = suffix_2
         self.label = label

@@ -14,10 +14,6 @@ from love_matcher.refactored.tuning.tuning import TuneParameters
 
 
 class MainClass:
-    # TODO make workspace configurable from luigi.cfg
-    def __init__(self, workspace="/home/dolounet/dev/workshops/"):
-        self.workspace = workspace
-
     def main(self):
         start_time = datetime.datetime.now()
         dataset = self.read_dataframe()
@@ -41,9 +37,8 @@ class MainClass:
 
         best_parameters_loaded = self.load_best_parameters()
 
-        split_test_train = SplitTestTrain(feat_eng_df=feat_eng_df, features=features)
-
         # Train
+        split_test_train = SplitTestTrain(feat_eng_df=feat_eng_df, features=features)
         x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
         train = Trainer(x_train, y_train, x_test, y_test, best_parameters_loaded)
         estimator, score_train, score_test = train.combiner_pipeline()
@@ -61,7 +56,7 @@ class MainClass:
             return json.load(best_parameters_file)
 
     def read_dataframe(self):
-        return pd.read_csv(self.workspace + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
+        return pd.read_csv(workspace + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
 
 
 if __name__ == '__main__':
