@@ -1,8 +1,12 @@
-from sklearn.metrics import classification_report
-from sklearn.model_selection import train_test_split, GridSearchCV
 import warnings
 
+from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV
+
+from love_matcher.refactored.split_test_train import SplitTestTrain
+
 warnings.filterwarnings("ignore")
+
 
 class TuneParameters:
     def __init__(self, feat_eng_df, estimator, parameters, scores, features):
@@ -11,28 +15,6 @@ class TuneParameters:
         self.estimator = estimator
         self.parameters = parameters
         self.scores = scores
-
-    def create_df_explained_explanatory(self, label):
-        features_model = self.process_features_names(self.features, "_me", "_partner")
-
-        # Tuning
-        explanatory = self.feat_eng_df[features_model]
-        explained = self.feat_eng_df[label]
-        return explanatory, explained
-
-
-    def process_features_names(self, features, suffix_1, suffix_2):
-        features_me = [feat + suffix_1 for feat in features]
-        features_partner = [feat + suffix_2 for feat in features]
-        features_all = features_me + features_partner
-        return features_all
-
-    def create_train_test_splits(self):
-        explanatory, explained = self.create_df_explained_explanatory("match")
-        x_train, x_test, y_train, y_test = train_test_split(explanatory, explained,
-                                                            test_size=0.5, random_state=0,
-                                                            stratify=explained)
-        return x_train, x_test, y_train, y_test
 
     def tuning_parameters(self, trainset_x, testset_x, trainset_y, testset_y):
         for score in self.scores:
@@ -54,6 +36,7 @@ class TuneParameters:
             return grid_rfc.best_estimator_.get_params()
 
     def combiner_pipeline(self):
-        x_train, x_test, y_train, y_test = self.create_train_test_splits()
+        split_test_train = SplitTestTrain(self.feat_eng_df, self.features)
+        x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
         best_params = self.tuning_parameters(x_train, x_test, y_train, y_test)
         return best_params

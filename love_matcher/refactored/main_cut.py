@@ -8,6 +8,7 @@ from sklearn import ensemble
 from docs.conf import *
 from love_matcher.refactored.feature_engineering.feature_engineering import FeatureEngineering
 from love_matcher.refactored.preprocessing.raw_set_processing import RawSetProcessing
+from love_matcher.refactored.split_test_train import SplitTestTrain
 from love_matcher.refactored.training.training import Trainer
 from love_matcher.refactored.tuning.tuning import TuneParameters
 
@@ -40,12 +41,15 @@ class MainClass:
 
         best_parameters_loaded = self.load_best_parameters()
 
+        split_test_train = SplitTestTrain(feat_eng_df=feat_eng_df, features=features)
+
         # Train
-        x_train, x_test, y_train, y_test = tune.create_train_test_splits()
+        x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
         train = Trainer(x_train, y_train, x_test, y_test, best_parameters_loaded)
         estimator, score_train, score_test = train.combiner_pipeline()
         print(estimator, score_train, score_test)
         end_time = datetime.datetime.now()
+        print(end_time - start_time)
 
     def save_best_parameters(self, best_parameters):
         with open(best_parameters_file_path, 'w') as best_parameters_file:
