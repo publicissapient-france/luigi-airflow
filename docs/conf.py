@@ -1,11 +1,11 @@
-my_variables_selection = ["iid", "pid", "match", "gender", "date", "go_out", "sports", "tvsports", "exercise",
+my_variables_selection = ["iid", "pid", "match", "date", "go_out", "sports", "tvsports", "exercise",
                           "dining",
                           "museums", "art", "hiking", "gaming", "clubbing", "reading", "tv", "theater",
                           "movies",
                           "concerts", "music", "shopping", "yoga"]
 
 # TODO make features externalized
-features = list(["gender", "date", "go_out", "sports", "tvsports", "exercise", "dining", "museums", "art",
+features = list(["date", "go_out", "sports", "tvsports", "exercise", "dining", "museums", "art",
                  "hiking", "gaming", "clubbing", "reading", "tv", "theater", "movies", "concerts", "music",
                  "shopping", "yoga"])
 
@@ -17,7 +17,8 @@ parameters = [
 ]
 scores = ['precision', 'recall']
 
-output_dir = "/home/dolounet/dev/workshops/luigi-airflow/output"
+output_dir = "/Users/sandrapietrowska/Documents/Trainings/luigi/luigi-airflow/output"
 best_parameters_file_path = "%s/best_parameters.json" % output_dir
+path_eval = "%s/eval.csv" % output_dir
 feature_engineered_dataset_file_path = "%s/feature_engineered_dataset.csv" % output_dir
-workspace="/home/dolounet/dev/workshops/"
+workspace="/Users/sandrapietrowska/Documents/Trainings/luigi/data_source/"

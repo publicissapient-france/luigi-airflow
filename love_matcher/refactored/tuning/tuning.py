@@ -29,14 +29,14 @@ class TuneParameters:
             print("")
             print(grid_rfc.best_params_)
             print("")
-            y_true, y_pred = testset_y, grid_rfc.predict(testset_x)
-            print(classification_report(y_true, y_pred))
-            print("")
+            # y_true, y_pred = testset_y, grid_rfc.predict(testset_x)
+            # print(classification_report(y_true, y_pred))
+            # print("")
 
-            return grid_rfc.best_estimator_.get_params()
+            return grid_rfc, grid_rfc.best_estimator_.get_params()
 
     def combiner_pipeline(self):
         split_test_train = SplitTestTrain(self.feat_eng_df, self.features)
         x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
-        best_params = self.tuning_parameters(x_train, x_test, y_train, y_test)
-        return best_params
+        grid_rfc, best_params = self.tuning_parameters(x_train, x_test, y_train, y_test)
+        return grid_rfc, best_params
