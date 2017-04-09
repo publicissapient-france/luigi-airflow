@@ -2,10 +2,11 @@ import pandas as pd
 from sklearn import tree
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split, GridSearchCV
-
+from docs.conf import my_variables_selection, features
 pd.set_option('display.max_columns', None)
 
-local_path = "/home/dolounet/dev/workshops/"
+#local_path = "/home/dolounet/dev/workshops/"
+local_path = "/Users/sandrapietrowska/Documents/Trainings/luigi/data_source/"
 
 local_filename = "Speed_Dating_Data.csv"
 
@@ -52,13 +53,13 @@ class RawSetProcessing(object):
         return subset_filled_df
 
 
-my_variables_selection = ["iid", "pid", "match", "gender", "date", "go_out", "sports", "tvsports", "exercise", "dining",
-                          "museums", "art", "hiking", "gaming", "clubbing", "reading", "tv", "theater", "movies",
-                          "concerts", "music", "shopping", "yoga"]
+# my_variables_selection = ["iid", "pid", "match", "date", "go_out", "sports", "tvsports", "exercise", "dining",
+#                           "museums", "art", "hiking", "gaming", "clubbing", "reading", "tv", "theater", "movies",
+#                           "concerts", "music", "shopping", "yoga"]
 
-features = list(["gender", "date", "go_out", "sports", "tvsports", "exercise", "dining", "museums", "art",
-                 "hiking", "gaming", "clubbing", "reading", "tv", "theater", "movies", "concerts", "music",
-                 "shopping", "yoga"])
+# features = list(["date", "go_out", "sports", "tvsports", "exercise", "dining", "museums", "art",
+#                  "hiking", "gaming", "clubbing", "reading", "tv", "theater", "movies", "concerts", "music",
+#                  "shopping", "yoga"])
 
 raw_set = RawSetProcessing(local_path, local_filename, my_variables_selection)
 dataset_df = raw_set.combiner_pipeline()

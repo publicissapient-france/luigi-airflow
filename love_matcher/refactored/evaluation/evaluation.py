@@ -24,7 +24,7 @@ class Evaluator:
         best_estimator = self.get_best_estimator(json_path)
         params = best_estimator
         if self.class_type == 'simple':
-            reg = tree.DecisionTreeClassifier(**params)
+            reg = tree.DecisionTreeClassifier(random_state=1234)
         elif self.class_type == 'other':
             reg = ensemble.RandomForestClassifier(**params)
         else:
