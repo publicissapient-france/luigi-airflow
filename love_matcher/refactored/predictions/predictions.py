@@ -32,4 +32,5 @@ class Predictor:
 
     def export_pred_to_csv(self, preds):
         pred_df = pd.DataFrame(preds)
-        pred_df.to_csv(output_dir + "/predictions.csv",index=False)
+        pred_concat_df = pd.concat([pred_df,self.new_data], axis=1)
+        pred_concat_df.to_csv(output_dir + "/predictions.csv",index=False)
