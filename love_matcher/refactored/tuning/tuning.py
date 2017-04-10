@@ -36,7 +36,7 @@ class TuneParameters:
             return grid_rfc, grid_rfc.best_estimator_.get_params()
 
     def combiner_pipeline(self):
-        split_test_train = SplitTestTrain(self.feat_eng_df, self.features)
+        split_test_train = SplitTestTrain(self.feat_eng_df)
         x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
         grid_rfc, best_params = self.tuning_parameters(x_train, x_test, y_train, y_test)
         return grid_rfc, best_params

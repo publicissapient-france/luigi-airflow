@@ -25,7 +25,7 @@ class FeatureEngineeringTask:
 
         # Feature engineering
         feature_engineering = FeatureEngineering()
-        feat_eng_df = feature_engineering.get_partner_features(dataset_df)
+        feat_eng_df, processed_features_names = feature_engineering.get_partner_features(dataset_df)
         feat_eng_df.to_csv(feature_engineered_dataset_file_path)
 
     def read_dataframe(self):
@@ -53,7 +53,7 @@ class TrainTask:
         with open(best_parameters_file_path) as best_parameters_file:
             best_parameters = json.load(best_parameters_file)
             best_parameters_file.close()
-            split_test_train = SplitTestTrain(feat_eng_df=feat_eng_df, features=features)
+            split_test_train = SplitTestTrain(feat_eng_df=feat_eng_df)
             x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
             train = Trainer(x_train, y_train, x_test, y_test, best_parameters)
             estimator, score_train, score_test = train.combiner_pipeline()
