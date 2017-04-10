@@ -44,12 +44,10 @@ class MainClass:
         # Train
         split_test_train = SplitTestTrain(feat_eng_df=all_features_engineered_df, processed_features_names=selected_features_df)
         x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
-        print (x_train.shape)
         train = Trainer(x_train, y_train, x_test, y_test, best_parameters_loaded, model_type=model)
         train.save_estimator(output_dir)
 
         estimator, score_train, score_test = train.combiner_pipeline()
-        print(estimator, score_train, score_test)
         end_time = datetime.datetime.now()
         print(end_time - start_time)
 
