@@ -26,6 +26,7 @@ services:
             - POSTGRES_DB=airflow
         volumes:
             - ${AIRFLOW_DAGS}:/usr/local/airflow/dags
+            - ${LOVE_MATCHER_PROJECT}:/usr/local/airflow/love_matcher_project
         ports:
             - "8077:8080"
         command: webserver
@@ -48,13 +49,14 @@ services:
             - webserver
         volumes:
             - ${AIRFLOW_DAGS}:/usr/local/airflow/dags
+            - ${LOVE_MATCHER_PROJECT}:/usr/local/airflow/love_matcher_project
         environment:
             - LOAD_EX=y
             - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
             - EXECUTOR=Celery
-             - POSTGRES_USER=airflow
-             - POSTGRES_PASSWORD=airflow
-             - POSTGRES_DB=airflow
+            - POSTGRES_USER=airflow
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
         command: scheduler
 
     worker:
@@ -64,6 +66,7 @@ services:
             - scheduler
         volumes:
             - ${AIRFLOW_DAGS}:/usr/local/airflow/dags
+            - ${LOVE_MATCHER_PROJECT}:/usr/local/airflow/love_matcher_project
         environment:
             - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
             - EXECUTOR=Celery
