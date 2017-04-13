@@ -5,7 +5,7 @@ from airflow.operators.python_operator import PythonOperator
 from love_matcher.refactored.airflow.task_classes import FeatureEngineeringTask, TuneTask, TrainTask
 
 args = {
-    'owner': 'santoine',
+    'owner': 'Sandoine',
     'start_date': airflow.utils.dates.days_ago(2)
 }
 
