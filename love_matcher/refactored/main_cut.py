@@ -19,7 +19,7 @@ class MainClass:
         start_time = datetime.datetime.now()
         dataset = self.read_dataframe("Speed_Dating_Data.csv")
         new_data = self.read_dataframe("New_data.csv")
-        model = "other"
+        model = "simple"
 
         # Preprocessing
         raw_dataset = RawSetProcessing(my_variables_selection)

@@ -15,8 +15,9 @@ class Trainer:
 
     def build_best_estimator(self):
         if self.model_type == "simple":
-            model = tree.DecisionTreeClassifier()
+            model = tree.DecisionTreeClassifier(max_depth = 6, min_samples_leaf = 30)
             self.estimator = model.fit(self.x_train, self.y_train)
+            tree.export_graphviz(self.estimator, out_file='tree.dot')
         else:
             model = ensemble.RandomForestClassifier(**self.best_params)
             self.estimator = model.fit(self.x_train, self.y_train)

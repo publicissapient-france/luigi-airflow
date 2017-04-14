@@ -3,6 +3,7 @@ import json
 
 import luigi
 import pandas as pd
+from luigi import Target
 from sklearn import ensemble
 
 from docs.conf import *
@@ -14,8 +15,9 @@ from love_matcher.refactored.tuning.tuning import TuneParameters
 
 
 class FeatureEngineeringTask(luigi.Task):
+    # TODO parametres
     def output(self):
-        return luigi.local_target.LocalTarget(feature_engineered_dataset_file_path)
+        return luigi.LocalTarget(feature_engineered_dataset_file_path)
 
     def run(self):
         dataset = self.read_dataframe()
@@ -25,7 +27,7 @@ class FeatureEngineeringTask(luigi.Task):
         dataset_df = raw_dataset.combiner_pipeline(dataframe=dataset)
 
         # Feature engineering
-        feature_engineering = FeatureEngineering()
+        feature_engineering = FeatureEngineering(features=features)
         feat_eng_df, processed_features_names = feature_engineering.get_partner_features(dataset_df)
         feat_eng_df.to_csv(feature_engineered_dataset_file_path)
 
@@ -74,3 +76,5 @@ class TrainTask(luigi.Task):
             print(estimator, score_train, score_test)
             end_time = datetime.datetime.now()
             print("Total time spent %s" % (end_time - self.start_time))
+
+# TODO wrapper task
