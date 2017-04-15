@@ -14,7 +14,7 @@ class Trainer:
         self.model_type = model_type
 
     def build_best_estimator(self):
-        if self.model_type == "simple":
+        if self.model_type == "Decision_Tree":
             model = tree.DecisionTreeClassifier(max_depth = 6, min_samples_leaf = 30)
             self.estimator = model.fit(self.x_train, self.y_train)
             tree.export_graphviz(self.estimator, out_file='tree.dot')
@@ -26,7 +26,7 @@ class Trainer:
     def save_estimator(self, model_target):
         print ("Saving model...")
         model, estimator = self.build_best_estimator()
-        joblib.dump(model, model_target + '/my_model.pkl')
+        joblib.dump(model, model_target + '/' + self.model_type + '_model.pkl')
 
     def score_estimator_train(self):
         return self.estimator.score(self.x_train, self.y_train)

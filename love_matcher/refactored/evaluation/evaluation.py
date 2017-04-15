@@ -8,12 +8,12 @@ from docs.conf import *
 class Evaluator:
     warnings.filterwarnings("ignore")
 
-    def __init__(self, x_train, y_train, x_test, y_test, class_type):
+    def __init__(self, x_train, y_train, x_test, y_test, model_type):
         self.x_train = x_train
         self.y_train = y_train
         self.x_test = x_test
         self.y_test = y_test
-        self.class_type = class_type
+        self.model_type = model_type
 
     def get_best_estimator(self,json_path):
         with open(json_path) as data_file:
@@ -21,11 +21,11 @@ class Evaluator:
         return best_estimator
 
     def build_best_estimator(self,json_path):
-        best_estimator = self.get_best_estimator(json_path)
-        params = best_estimator
-        if self.class_type == 'simple':
+        if self.model_type == 'Decision_Tree':
             reg = tree.DecisionTreeClassifier(random_state=1234)
-        elif self.class_type == 'other':
+        elif self.model_type == 'Other':
+            best_estimator = self.get_best_estimator(json_path)
+            params = best_estimator
             reg = ensemble.RandomForestClassifier(**params)
         else:
             return 0

@@ -22,4 +22,3 @@ best_parameters_file_path = "%s/best_parameters.json" % output_dir
 path_eval = "%s/eval.csv" % output_dir
 feature_engineered_dataset_file_path = "%s/feature_engineered_dataset.csv" % output_dir
 workspace="/Users/sandrapietrowska/Documents/Trainings/luigi/data_source/"
-mdl_path = "%s/my_model.pkl" % output_dir

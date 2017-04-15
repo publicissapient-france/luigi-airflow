@@ -43,10 +43,9 @@ class TuneTask(luigi.Task):
         return FeatureEngineeringTask()
 
     def run(self):
-        # TODO make random forest parameters externalized
+        # Tuning
         feat_eng_df = pd.read_csv(feature_engineered_dataset_file_path)
-        rf_model = ensemble.RandomForestClassifier(n_estimators=5, class_weight="balanced", oob_score=False)
-        tune = TuneParameters(feat_eng_df, rf_model, parameters, scores, features)
+        tune = TuneParameters(feat_eng_df, parameters, scores, features)
         best_parameters = tune.combiner_pipeline()
         self.save_best_parameters(best_parameters)
 
