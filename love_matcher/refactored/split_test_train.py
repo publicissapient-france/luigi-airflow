@@ -17,6 +17,7 @@ class SplitTestTrain:
     def create_df_explained_explanatory(self, label):
         # Tuning
         explanatory = self.explanatory
-        print (explanatory.shape)
+        if 'Unnamed: 0' in explanatory.columns:
+            del explanatory['Unnamed: 0']
         explained = self.feat_eng_df[label]
         return explanatory, explained

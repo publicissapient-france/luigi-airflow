@@ -42,7 +42,7 @@ class FeatureEngineeringTask(luigi.Task):
 
 
 class TuneTask(luigi.Task):
-    model_type = Parameter(default="Random_Forest")
+    model_type = Parameter(default="Decision_Tree")
 
     def output(self):
         return luigi.LocalTarget(output_dir + "/" + self.model_type + "_best_parameters.json")
@@ -69,7 +69,7 @@ class TuneTask(luigi.Task):
 
 
 class TrainTask(luigi.Task):
-    model_type = Parameter(default="Random_Forest")
+    model_type = Parameter(default="Decision_Tree")
 
     def output(self):
         return luigi.LocalTarget(output_dir + '/' + self.model_type + '_model.pkl')
@@ -122,7 +122,7 @@ class EvaluationTask(luigi.Task):
 
 
 class PredictionsTask(luigi.Task):
-    model_type = Parameter(default="Random_Forest")
+    model_type = Parameter(default="Decision_Tree")
 
     def output(self):
         return luigi.LocalTarget(output_dir + "/" + self.model_type + "_predictions.csv")
