@@ -8,10 +8,8 @@ from sklearn.externals import joblib
 class Predictor:
     warnings.filterwarnings("ignore")
 
-    def __init__(self, new_data, x_train, y_train, model_type):
+    def __init__(self, new_data, model_type):
         self.new_data = new_data
-        self.x_train = x_train
-        self.y_train = y_train
         self.model_type = model_type
 
     def load_estimator(self, model_target):

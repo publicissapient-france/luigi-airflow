@@ -131,13 +131,8 @@ class PredictionsTask(luigi.Task):
         return TrainTask()
 
     def run(self):
-        feat_eng_df = pd.read_csv(feature_engineered_dataset_file_path)
-        processed_features_names_df = pd.read_csv(processed_features_names_file_path)
         new_data = pd.read_csv(workspace + "New_data.csv", encoding="ISO-8859-1")
-
-        split_test_train = SplitTestTrain(feat_eng_df=feat_eng_df, processed_features_names=processed_features_names_df)
-        x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
-        predictions = Predictor(new_data=new_data, model_type=self.model_type, x_train=x_train, y_train=y_train)
+        predictions = Predictor(new_data=new_data, model_type=self.model_type)
         estimator = predictions.load_estimator(output_dir)
         predictions_applied = predictions.predict(estimator)
         predictions.export_pred_to_csv(predictions_applied)

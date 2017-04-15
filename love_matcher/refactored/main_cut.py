@@ -58,7 +58,7 @@ class MainClass:
         evaluation.eval()
 
         # Predictions
-        predictions = Predictor(new_data=new_data, model_type=self.model_type, x_train =x_train, y_train=y_train)
+        predictions = Predictor(new_data=new_data, model_type=self.model_type)
         estimator = predictions.load_estimator(output_dir)
         predictions_applied = predictions.predict(estimator)
         predictions.export_pred_to_csv(predictions_applied)
@@ -78,4 +78,4 @@ class MainClass:
 
 
 if __name__ == '__main__':
-    MainClass(model_type="Random_Forest").main()
+    MainClass(model_type="Decision_Tree").main()
