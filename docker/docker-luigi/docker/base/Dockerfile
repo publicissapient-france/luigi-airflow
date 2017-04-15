@@ -21,11 +21,10 @@ RUN pip install 'luigi'
 RUN mkdir /etc/luigi && chmod -R a+rw /etc/luigi
 
 COPY scripts/ .
-ADD https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh .
 RUN chmod +x generate_config.py && chmod +x run.sh && mv run.sh /usr/bin && chmod 777 Anaconda2-4.3.1-Linux-x86_64.sh && mv Anaconda2-4.3.1-Linux-x86_64.sh /usr/bin
 
 USER luigi
-
+RUN echo $HOME
 RUN Anaconda2-4.3.1-Linux-x86_64.sh -b
 
 CMD ["run.sh"]

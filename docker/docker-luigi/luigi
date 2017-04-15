@@ -2,6 +2,7 @@
 
 cmd=${1:-help}
 script=$(basename "$0")
+script_dir=$(dirname "$0")
 
 if [[ "$cmd" == "help" ]]
 then
@@ -31,6 +32,12 @@ EOF
 fi
 
 docker_compose() {
+    if [ ! -f "$script_dir/docker/base/scripts/Anaconda2-4.3.1-Linux-x86_64.sh" ]; then
+        pushd script_dir/docker/base/scripts/
+        wget https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh
+        popd
+    fi
+
     docker-compose -p luigi "$@"
 }
 
