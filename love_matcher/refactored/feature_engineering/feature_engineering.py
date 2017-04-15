@@ -6,7 +6,7 @@ class FeatureEngineering:
     This class aims to load and clean the dataset.
     """
 
-    def __init__(self, suffix_1="_me", suffix_2="_partner", label="match_perc", features=None):
+    def __init__(self, features, suffix_1="_me", suffix_2="_partner", label="match_perc"):
         self.features = features
         self.suffix_1 = suffix_1
         self.suffix_2 = suffix_2
@@ -20,7 +20,6 @@ class FeatureEngineering:
             df_partner = df_partner.copy()
         merged_datasets = df.merge(df_partner, how="inner", left_on="pid", right_on="iid",
                                    suffixes=(self.suffix_1, self.suffix_2))
-
         return merged_datasets, merged_datasets[self.process_features_names("_me", "_partner")]
 
     def combiner_pipeline(self, df):

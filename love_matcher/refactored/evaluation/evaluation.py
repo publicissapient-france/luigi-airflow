@@ -23,7 +23,7 @@ class Evaluator:
     def build_best_estimator(self,json_path):
         if self.model_type == 'Decision_Tree':
             reg = tree.DecisionTreeClassifier(random_state=1234)
-        elif self.model_type == 'Other':
+        elif self.model_type == 'Random_Forest':
             best_estimator = self.get_best_estimator(json_path)
             params = best_estimator
             reg = ensemble.RandomForestClassifier(**params)
@@ -32,9 +32,9 @@ class Evaluator:
         return reg.fit(self.x_train,self.y_train)
 
     def eval(self):
-        reg = self.build_best_estimator(best_parameters_file_path)
+        reg = self.build_best_estimator(output_dir + "/" + self.model_type + "_best_parameters.json")
         y_true, y_pred = self.y_test, reg.predict(self.x_test)
         evaluation_report_test = classification_report(y_true, y_pred)
         print (evaluation_report_test)
-        with open(output_dir + "/eval.txt", "w") as text_file:
+        with open(output_dir + "/" + self.model_type + "_eval.txt", "w") as text_file:
             text_file.write(evaluation_report_test)

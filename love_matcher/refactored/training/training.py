@@ -1,6 +1,7 @@
 from sklearn import ensemble
 from sklearn import tree
 from sklearn.externals import joblib
+from docs.conf import *
 import pickle
 
 class Trainer:
@@ -17,7 +18,7 @@ class Trainer:
         if self.model_type == "Decision_Tree":
             model = tree.DecisionTreeClassifier(max_depth = 6, min_samples_leaf = 30)
             self.estimator = model.fit(self.x_train, self.y_train)
-            tree.export_graphviz(self.estimator, out_file='tree.dot')
+            tree.export_graphviz(self.estimator, out_file= output_dir + "/tree.dot")
         else:
             model = ensemble.RandomForestClassifier(**self.best_params)
             self.estimator = model.fit(self.x_train, self.y_train)

@@ -11,9 +11,10 @@ warnings.filterwarnings("ignore")
 
 
 class TuneParameters:
-    def __init__(self, feat_eng_df, parameters, scores, features):
+    def __init__(self, feat_eng_df, processed_names, parameters, scores, features):
         self.features = features
         self.feat_eng_df = feat_eng_df
+        self.processed_names = processed_names
         self.parameters = parameters
         self.scores = scores
 
@@ -35,7 +36,7 @@ class TuneParameters:
             return grid_rfc, grid_rfc.best_estimator_.get_params()
 
     def combiner_pipeline(self):
-        split_test_train = SplitTestTrain(self.feat_eng_df)
+        split_test_train = SplitTestTrain(self.feat_eng_df, self.processed_names)
         x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
         grid_rfc, best_params = self.tuning_parameters(x_train, y_train)
         return grid_rfc, best_params

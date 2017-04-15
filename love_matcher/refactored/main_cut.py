@@ -14,11 +14,13 @@ from love_matcher.refactored.evaluation.evaluation import Evaluator
 from love_matcher.refactored.predictions.predictions import Predictor
 
 class MainClass:
+    def __init__(self, model_type):
+        self.model_type = model_type
+
     def main(self):
         start_time = datetime.datetime.now()
         dataset = self.read_dataframe("Speed_Dating_Data.csv")
         new_data = self.read_dataframe("New_data.csv")
-        model_type = "Decision_Tree"
 
         # Preprocessing
         raw_dataset = RawSetProcessing(my_variables_selection)
@@ -30,11 +32,13 @@ class MainClass:
         print (all_features_engineered_df.shape)
 
         # Tuning
-        if model_type == "Decision_Tree":
+        if self.model_type == "Decision_Tree":
+            print ("No tuning for Decision Tree")
             best_parameters_loaded = None
         else:
-            tune = TuneParameters(all_features_engineered_df, parameters, scores, features)
-            if not os.path.exists(best_parameters_file_path):
+            print (self.model_type)
+            tune = TuneParameters(all_features_engineered_df, selected_features_df, parameters, scores, features)
+            if not os.path.exists(output_dir + "/" + self.model_type + "_best_parameters.json"):
                 best_parameters = tune.combiner_pipeline()[1]
                 self.save_best_parameters(best_parameters)
             best_parameters_loaded = self.load_best_parameters()
@@ -42,29 +46,31 @@ class MainClass:
         # Train
         split_test_train = SplitTestTrain(feat_eng_df=all_features_engineered_df, processed_features_names=selected_features_df)
         x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
-        train = Trainer(x_train, y_train, x_test, y_test, best_parameters_loaded, model_type=model_type)
+        print ("Training")
+        train = Trainer(x_train, y_train, x_test, y_test, best_parameters_loaded, model_type=self.model_type)
         train.save_estimator(output_dir)
         estimator, score_train, score_test = train.combiner_pipeline()
         end_time = datetime.datetime.now()
         print(end_time - start_time)
 
         # Evaluation
-        evaluation = Evaluator(x_train=x_train, x_test=x_test, y_train=y_train, y_test=y_test, model_type = model_type)
+        evaluation = Evaluator(x_train=x_train, x_test=x_test, y_train=y_train, y_test=y_test, model_type = self.model_type)
         evaluation.eval()
 
         # Predictions
-        predictions = Predictor(new_data=new_data, model_type=model_type, x_train=x_train, y_train = y_train)
+        predictions = Predictor(new_data=new_data, model_type=self.model_type, x_train =x_train, y_train=y_train)
         estimator = predictions.load_estimator(output_dir)
         predictions_applied = predictions.predict(estimator)
         predictions.export_pred_to_csv(predictions_applied)
 
     def save_best_parameters(self, best_parameters):
-        with open(best_parameters_file_path, 'w') as best_parameters_file:
+        print (self.model_type)
+        with open(output_dir + "/" + self.model_type + "_best_parameters.json", 'w') as best_parameters_file:
             json.dump(best_parameters, best_parameters_file)
             best_parameters_file.close()
 
     def load_best_parameters(self):
-        with open(best_parameters_file_path) as best_parameters_file:
+        with open(output_dir + "/" + self.model_type + "_best_parameters.json") as best_parameters_file:
             return json.load(best_parameters_file)
 
     def read_dataframe(self, filename):
@@ -72,4 +78,4 @@ class MainClass:
 
 
 if __name__ == '__main__':
-    MainClass().main()
+    MainClass(model_type="Random_Forest").main()
