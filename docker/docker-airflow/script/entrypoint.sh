@@ -17,6 +17,12 @@ LOVE_MATCHER_HOME=/usr/local/airflow/love_matcher_project
 : ${FERNET_KEY:=$(python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)")}
 
 pip install -e $LOVE_MATCHER_HOME
+airflow connections -d --conn_id airflow_db
+airflow connections -d --conn_id airflow_ci
+airflow connections -d --conn_id postgres_default
+airflow connections -a --conn_id airflow_db --conn_uri postgresql://airflow:airflow@postgres/airflow
+airflow connections -a --conn_id airflow_ci --conn_uri postgresql://airflow:airflow@postgres/airflow
+airflow connections -a --conn_id postgres_default --conn_uri postgresql://airflow:airflow@postgres/airflow
 
 # Load DAGs exemples (default: Yes)
 if [ "$LOAD_EX" = "n" ]; then
