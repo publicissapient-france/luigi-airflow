@@ -3,9 +3,6 @@ import json
 import os
 
 import luigi
-from luigi import Target
-from luigi import Parameter
-
 import pandas as pd
 
 from docs.conf import *
@@ -42,10 +39,10 @@ class FeatureEngineeringTask(luigi.Task):
 
 
 class TuneTask(luigi.Task):
-    model_type = Parameter(default="Decision_Tree")
+    model_type = luigi.Parameter()
 
     def output(self):
-        return luigi.LocalTarget(output_dir + "/" + self.model_type + "_best_parameters.json")
+        return luigi.LocalTarget(output_dir + "/" + str(self.model_type) + "_best_parameters.json")
 
     def requires(self):
         return FeatureEngineeringTask()
@@ -58,21 +55,21 @@ class TuneTask(luigi.Task):
             return 0
         else:
             tune = TuneParameters(feat_eng_df, processed_features_names_df, parameters, scores, features)
-            if not os.path.exists(output_dir + "/" + self.model_type + "_best_parameters.json"):
+            if not os.path.exists(output_dir + "/" + str(self.model_type) + "_best_parameters.json"):
                 best_parameters = tune.combiner_pipeline()[1]
                 self.save_best_parameters(best_parameters)
 
     def save_best_parameters(self, best_parameters):
-        with open(output_dir + "/" + self.model_type + "_best_parameters.json", 'w') as best_parameters_file:
+        with open(output_dir + "/" + str(self.model_type) + "_best_parameters.json", 'w') as best_parameters_file:
             json.dump(best_parameters, best_parameters_file)
             best_parameters_file.close()
 
 
 class TrainTask(luigi.Task):
-    model_type = Parameter(default="Decision_Tree")
+    model_type = luigi.Parameter()
 
     def output(self):
-        return luigi.LocalTarget(output_dir + '/' + self.model_type + '_model.pkl')
+        return luigi.LocalTarget(output_dir + '/' + str(self.model_type) + '_model.pkl')
 
     def requires(self):
         if self.model_type == "Decision_Tree":
@@ -80,7 +77,7 @@ class TrainTask(luigi.Task):
             return FeatureEngineeringTask()
         else:
             self.start_time = datetime.datetime.now()
-            return TuneTask()
+            return TuneTask(self.model_type)
 
     def run(self):
         feat_eng_df = pd.read_csv(feature_engineered_dataset_file_path)
@@ -91,7 +88,7 @@ class TrainTask(luigi.Task):
             best_parameters = self.load_best_parameters()
         split_test_train = SplitTestTrain(feat_eng_df=feat_eng_df, processed_features_names=processed_features_names_df)
         x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
-        train = Trainer(x_train, y_train, x_test, y_test, best_parameters, model_type=self.model_type)
+        train = Trainer(x_train, y_train, x_test, y_test, best_parameters, model_type=str(self.model_type))
         train.save_estimator(output_dir)
         estimator, score_train, score_test = train.combiner_pipeline()
         print(estimator, score_train, score_test)
@@ -99,43 +96,63 @@ class TrainTask(luigi.Task):
         print("Total time spent %s" % (end_time - self.start_time))
 
     def load_best_parameters(self):
-        with open(output_dir + "/" + self.model_type + "_best_parameters.json") as best_parameters_file:
+        with open(output_dir + "/" + str(self.model_type) + "_best_parameters.json") as best_parameters_file:
             return json.load(best_parameters_file)
 
 
 class EvaluationTask(luigi.Task):
-    model_type = Parameter(default="Decision_Tree")
+    model_type = luigi.Parameter()
 
     def output(self):
-        return luigi.LocalTarget(output_dir + "/" + self.model_type + "_eval.txt")
+        return luigi.LocalTarget(output_dir + "/" + str(self.model_type) + "_eval.txt")
 
     def requires(self):
-        return TrainTask()
+        return TrainTask(self.model_type)
 
     def run(self):
         feat_eng_df = pd.read_csv(feature_engineered_dataset_file_path)
         processed_features_names_df = pd.read_csv(processed_features_names_file_path)
         split_test_train = SplitTestTrain(feat_eng_df=feat_eng_df, processed_features_names=processed_features_names_df)
         x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
-        evaluation = Evaluator(x_train=x_train, x_test=x_test, y_train=y_train, y_test=y_test, model_type = self.model_type)
+        evaluation = Evaluator(x_train=x_train, x_test=x_test, y_train=y_train, y_test=y_test, model_type = str(self.model_type))
         evaluation.eval()
 
 
 class PredictionsTask(luigi.Task):
-    model_type = Parameter(default="Decision_Tree")
+    model_type = luigi.Parameter()
 
     def output(self):
-        return luigi.LocalTarget(output_dir + "/" + self.model_type + "_predictions.csv")
+        return luigi.LocalTarget(output_dir + "/" + str(self.model_type) + "_predictions.csv")
 
     def requires(self):
-        return TrainTask()
+        return TrainTask(self.model_type)
 
     def run(self):
         new_data = pd.read_csv(workspace + "New_data.csv", encoding="ISO-8859-1")
-        predictions = Predictor(new_data=new_data, model_type=self.model_type)
+        predictions = Predictor(new_data=new_data, model_type=str(self.model_type))
         estimator = predictions.load_estimator(output_dir)
         predictions_applied = predictions.predict(estimator)
         predictions.export_pred_to_csv(predictions_applied)
 
 
-# TODO wrapper task
+class GenerateFirstModel(luigi.WrapperTask):
+    model_type = luigi.Parameter(default="Decision_Tree")
+
+
+    def requires(self):
+        return FeatureEngineeringTask(),\
+               TrainTask(model_type = self.model_type),\
+               EvaluationTask(model_type = self.model_type),\
+               PredictionsTask(model_type = self.model_type)
+
+
+
+class GenerateSecondModel(luigi.WrapperTask):
+    model_type = luigi.Parameter(default="Random_Forest")
+
+    def requires(self):
+        return FeatureEngineeringTask(),\
+               TuneTask(model_type=self.model_type),\
+               TrainTask(model_type= self.model_type), \
+               EvaluationTask(model_type=self.model_type), \
+               PredictionsTask(model_type=self.model_type)

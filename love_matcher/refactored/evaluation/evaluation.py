@@ -33,6 +33,7 @@ class Evaluator:
 
     def eval(self):
         reg = self.build_best_estimator(output_dir + "/" + self.model_type + "_best_parameters.json")
+        print (output_dir + "/" + self.model_type + "_best_parameters.json")
         y_true, y_pred = self.y_test, reg.predict(self.x_test)
         evaluation_report_test = classification_report(y_true, y_pred)
         print (evaluation_report_test)

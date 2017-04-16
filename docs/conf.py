@@ -16,13 +16,6 @@ parameters = [
      }
 ]
 
-# parameters = [
-#     {'max_depth': [8, 10, 12, 14, 16, 18, 20, 30],
-#      'min_samples_split': [10, 15, 20, 25, 30],
-#      'min_samples_leaf': [10, 15, 20, 25, 30]
-#      }
-# ]
-
 scores = ['precision', 'recall']
 
 output_dir = "/Users/sandrapietrowska/Documents/Trainings/luigi/luigi-airflow/output"
@@ -31,4 +24,3 @@ path_eval = "%s/eval.csv" % output_dir
 feature_engineered_dataset_file_path = "%s/feature_engineered_dataset.csv" % output_dir
 processed_features_names_file_path = "%s/processed_features_names.csv" % output_dir
 workspace="/Users/sandrapietrowska/Documents/Trainings/luigi/data_source/"
-model_type = "Random_Forest"
