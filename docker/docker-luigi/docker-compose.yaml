@@ -8,6 +8,8 @@ services:
       context: docker/base/ 
     ports:
       - "8082:8082"
+    volumes:
+      - $LOVE_MATCHER_PROJECT:/home/luigi/love_matcher_project
     environment:
       LUIGI_TASK_HISTORY_DB_CONNECTION: postgres://luigi@db/dev
       LUIGI_SCHEDULER_RECORD_TASK_HISTORY: "true"
@@ -23,6 +25,7 @@ services:
     hostname: worker
     volumes:
       - .:/luigi
+      - $LOVE_MATCHER_PROJECT:/home/luigi/love_matcher_project
     environment:
       LUIGI_CORE_DEFAULT-SCHEDULER-URL: http://scheduler:8082
     depends_on:

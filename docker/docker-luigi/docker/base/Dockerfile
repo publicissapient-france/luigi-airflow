@@ -28,4 +28,6 @@ RUN Anaconda3-4.3.1-Linux-x86_64.sh -b
 ENV PATH=/home/luigi/anaconda3/bin:$PATH LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN pip install 'luigi' 'psycopg2'
 
+VOLUME /home/luigi/love_matcher_project
+
 CMD ["run.sh"]

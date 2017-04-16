@@ -14,6 +14,7 @@ ENV TERM linux
 # Airflow
 ARG AIRFLOW_VERSION=1.8.0
 ARG AIRFLOW_HOME=/usr/local/airflow
+ARG ANACONDA_INSTALLER=Anaconda3-4.3.1-Linux-x86_64.sh
 
 # Define en_US.
 ENV LANGUAGE=en_US.UTF-8 LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 LC_CTYPE=en_US.UTF-8 LC_MESSAGES=en_US.UTF-8 LC_ALL=en_US.UTF-8
@@ -46,10 +47,10 @@ RUN set -ex \
     && useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow
 
 # Anaconda
-COPY script/Anaconda3-4.3.1-Linux-x86_64.sh /
-RUN chmod 777 /Anaconda3-4.3.1-Linux-x86_64.sh
+COPY script/$ANACONDA_INSTALLER /
+RUN chmod 777 /$ANACONDA_INSTALLER
 USER airflow
-RUN /Anaconda3-4.3.1-Linux-x86_64.sh -b
+RUN /$ANACONDA_INSTALLER -b
 ENV PATH=${AIRFLOW_HOME}/anaconda3/bin:$PATH
 
 RUN python -m pip install -U pip \

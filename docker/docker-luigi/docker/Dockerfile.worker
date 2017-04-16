@@ -17,4 +17,6 @@ RUN pip install -r requirements.txt
 ENV PYTHONPATH /luigi
 COPY docker/run_worker.sh /usr/bin/run_worker
 
+VOLUME /home/luigi/love_matcher_project
+
 CMD ["run_worker"]

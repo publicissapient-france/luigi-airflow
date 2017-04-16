@@ -7,6 +7,8 @@ RUN_TYPE=${RUN_TYPE:-worker}
 # Generate the luigi config file.
 /generate_config.py
 
+pip install -e /home/luigi/love_matcher_project
+
 case "$RUN_TYPE" in
     worker)
         # Create crontab and give read permissions to luigi.
