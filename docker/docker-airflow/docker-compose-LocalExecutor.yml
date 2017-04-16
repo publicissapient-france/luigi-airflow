@@ -8,7 +8,10 @@ services:
             - POSTGRES_DB=airflow
 
     webserver_loc:
-        image: puckel/docker-airflow:1.8.0
+        #image: puckel/docker-airflow:1.8.0
+        build:
+            dockerfile: Dockerfile
+            context: .
         container_name: airflow-local
         restart: always
         depends_on:
@@ -19,7 +22,6 @@ services:
         volumes:
             - ${AIRFLOW_DAGS}:/usr/local/airflow/dags
             - ${LOVE_MATCHER_PROJECT}:/usr/local/airflow/love_matcher_project
-            - ${ANACONDA_INSTALLER_DIR}:/usr/local/airflow/anaconda
         ports:
             - "8078:8080"
         command: webserver

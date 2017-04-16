@@ -11,7 +11,10 @@ services:
             - POSTGRES_DB=airflow
 
     webserver:
-        image: puckel/docker-airflow:1.8.0
+        #image: puckel/docker-airflow:1.8.0
+        build:
+            dockerfile: Dockerfile
+            context: .
         container_name: airflow-celery
         restart: always
         depends_on:
@@ -27,13 +30,15 @@ services:
         volumes:
             - ${AIRFLOW_DAGS}:/usr/local/airflow/dags
             - ${LOVE_MATCHER_PROJECT}:/usr/local/airflow/love_matcher_project
-            - ${ANACONDA_INSTALLER_DIR}:/usr/local/airflow/anaconda
         ports:
             - "8077:8080"
         command: webserver
 
     flower:
-        image: puckel/docker-airflow:1.8.0
+        #image: puckel/docker-airflow:1.8.0
+        build:
+            dockerfile: Dockerfile
+            context: .
         restart: always
         depends_on:
             - redis
@@ -44,14 +49,16 @@ services:
         command: flower
 
     scheduler:
-        image: puckel/docker-airflow:1.8.0
+        #image: puckel/docker-airflow:1.8.0
+        build:
+            dockerfile: Dockerfile
+            context: .
         restart: always
         depends_on:
             - webserver
         volumes:
             - ${AIRFLOW_DAGS}:/usr/local/airflow/dags
             - ${LOVE_MATCHER_PROJECT}:/usr/local/airflow/love_matcher_project
-            - ${ANACONDA_INSTALLER_DIR}:/usr/local/airflow/anaconda
         environment:
             - LOAD_EX=y
             - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
@@ -62,14 +69,16 @@ services:
         command: scheduler
 
     worker:
-        image: puckel/docker-airflow:1.8.0
+        #image: puckel/docker-airflow:1.8.0
+        build:
+            dockerfile: Dockerfile
+            context: .
         restart: always
         depends_on:
             - scheduler
         volumes:
             - ${AIRFLOW_DAGS}:/usr/local/airflow/dags
             - ${LOVE_MATCHER_PROJECT}:/usr/local/airflow/love_matcher_project
-            - ${ANACONDA_INSTALLER_DIR}:/usr/local/airflow/anaconda
         environment:
             - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
             - EXECUTOR=Celery
