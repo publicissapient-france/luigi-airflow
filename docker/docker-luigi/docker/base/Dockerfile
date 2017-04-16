@@ -1,6 +1,7 @@
 # Base luigi Dockerfile with python3.5.2
 FROM python:3.5.2
 MAINTAINER Spiro Sideris <spirosideris at gmail.com>
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Run an update, create a luigi user with sudo permissions, and install
 # python tools for luigi.
@@ -17,14 +18,14 @@ RUN DEBIAN_FRONTEND=noninteractive && \
 
 # Install the luigi package and the database requirements for postgres task
 # history.
-RUN pip install 'luigi'
 RUN mkdir /etc/luigi && chmod -R a+rw /etc/luigi
 
 COPY scripts/ .
-RUN chmod +x generate_config.py && chmod +x run.sh && mv run.sh /usr/bin && chmod 777 Anaconda2-4.3.1-Linux-x86_64.sh && mv Anaconda2-4.3.1-Linux-x86_64.sh /usr/bin
+RUN chmod +x generate_config.py && chmod +x run.sh && mv run.sh /usr/bin && chmod 777 Anaconda3-4.3.1-Linux-x86_64.sh && mv Anaconda3-4.3.1-Linux-x86_64.sh /usr/bin
 
 USER luigi
-RUN echo $HOME
-RUN Anaconda2-4.3.1-Linux-x86_64.sh -b
+RUN Anaconda3-4.3.1-Linux-x86_64.sh -b
+ENV PATH=/home/luigi/anaconda3/bin:$PATH LANG=C.UTF-8 LC_ALL=C.UTF-8
+RUN pip install 'luigi' 'psycopg2'
 
 CMD ["run.sh"]

@@ -4,8 +4,13 @@ FROM spiside/luigi:latest
 # specific packages. Some common ones that I've seen are numpy, scipy,
 # and pandas. These are build time expense packages so you might want
 # to add these to an intermediate package.
-ADD . luigi/
+ADD docker/files luigi/
 WORKDIR luigi/
+ADD docker/base/scripts/Anaconda3-4.3.1-Linux-x86_64.sh .
+
+RUN sudo chmod 777 Anaconda3-4.3.1-Linux-x86_64.sh && sudo mv Anaconda3-4.3.1-Linux-x86_64.sh /usr/bin && Anaconda3-4.3.1-Linux-x86_64.sh -b
+
+ENV PATH=/home/luigi/anaconda3/bin:$PATH LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 RUN pip install -r requirements.txt
 

@@ -3,6 +3,8 @@
 cmd=${1:-help}
 script=$(basename "$0")
 script_dir=$(dirname "$0")
+anaconda_href="https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh"
+anaconda_lref="Anaconda3-4.3.1-Linux-x86_64.sh"
 
 if [[ "$cmd" == "help" ]]
 then
@@ -32,9 +34,9 @@ EOF
 fi
 
 docker_compose() {
-    if [ ! -f "$script_dir/docker/base/scripts/Anaconda2-4.3.1-Linux-x86_64.sh" ]; then
-        pushd script_dir/docker/base/scripts/
-        wget https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh
+    if [ ! -f "$script_dir/docker/base/scripts/$anaconda_lref" ]; then
+        pushd $script_dir/docker/base/scripts/
+        wget $anaconda_href
         popd
     fi
 
