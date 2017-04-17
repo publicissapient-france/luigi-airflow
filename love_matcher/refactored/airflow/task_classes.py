@@ -1,5 +1,8 @@
 import json
 
+import datetime
+import os
+
 import pandas as pd
 from sklearn import ensemble
 
@@ -22,7 +25,7 @@ class FeatureEngineeringTask:
         dataset_df = raw_dataset.combiner_pipeline(dataframe=dataset)
 
         # Feature engineering
-        feature_engineering = FeatureEngineering()
+        feature_engineering = FeatureEngineering(features=features)
         feat_eng_df, processed_features_names = feature_engineering.get_partner_features(dataset_df)
         feat_eng_df.to_csv(feature_engineered_dataset_file_path)
 
