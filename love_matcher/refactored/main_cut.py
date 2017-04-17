@@ -20,7 +20,7 @@ class MainClass:
     def main(self):
         start_time = datetime.datetime.now()
         dataset = self.read_dataframe("Speed_Dating_Data.csv")
-        new_data = self.read_dataframe("New_data.csv")
+        new_data = self.read_dataframe("Submission_set.csv", sep=";")
 
         # Preprocessing
         raw_dataset = RawSetProcessing(my_variables_selection)
@@ -73,8 +73,8 @@ class MainClass:
         with open(output_dir + "/" + self.model_type + "_best_parameters.json") as best_parameters_file:
             return json.load(best_parameters_file)
 
-    def read_dataframe(self, filename):
-        return pd.read_csv(workspace + filename, encoding="ISO-8859-1")
+    def read_dataframe(self, filename, sep=","):
+        return pd.read_csv(workspace + filename, sep=sep, encoding="ISO-8859-1")
 
 
 if __name__ == '__main__':

@@ -15,7 +15,9 @@ class FeatureEngineering:
     def get_partner_features(self, df, ignore_vars=True):
         df_partner = df.copy()
         if ignore_vars is True:
-            df_partner = df_partner.drop(['pid', 'match'], 1).drop_duplicates()
+            if 'match' in df_partner.columns:
+                del df_partner['match']
+            df_partner = df_partner.drop(['pid'], 1).drop_duplicates()
         else:
             df_partner = df_partner.copy()
         merged_datasets = df.merge(df_partner, how="inner", left_on="pid", right_on="iid",

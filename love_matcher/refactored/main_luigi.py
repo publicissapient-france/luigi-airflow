@@ -125,7 +125,7 @@ class PredictionsTask(luigi.Task):
         return TrainTask(self.model_type)
 
     def run(self):
-        new_data = pd.read_csv(workspace + "New_data.csv", encoding="ISO-8859-1")
+        new_data = pd.read_csv(workspace + "Submission_set.csv", encoding="ISO-8859-1")
         predictions = Predictor(new_data=new_data, model_type=str(self.model_type))
         estimator = predictions.load_estimator(output_dir)
         predictions_applied = predictions.predict(estimator)

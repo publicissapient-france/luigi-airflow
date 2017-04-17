@@ -4,6 +4,12 @@ my_variables_selection = ["iid", "pid", "match", "date", "go_out", "sports", "tv
                           "movies",
                           "concerts", "music", "shopping", "yoga"]
 
+my_variables_selection_pred = ["iid", "pid", "date", "go_out", "sports", "tvsports", "exercise",
+                          "dining",
+                          "museums", "art", "hiking", "gaming", "clubbing", "reading", "tv", "theater",
+                          "movies",
+                          "concerts", "music", "shopping", "yoga"]
+
 # TODO make features externalized
 features = list(["date", "go_out", "sports", "tvsports", "exercise", "dining", "museums", "art",
                  "hiking", "gaming", "clubbing", "reading", "tv", "theater", "movies", "concerts", "music",

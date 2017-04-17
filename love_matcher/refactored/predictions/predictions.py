@@ -18,7 +18,7 @@ class Predictor:
 
     def predict(self, estimator):
         # Preprocessing
-        raw_dataset = RawSetProcessing(my_variables_selection)
+        raw_dataset = RawSetProcessing(my_variables_selection_pred)
         dataset_df = raw_dataset.combiner_pipeline(dataframe=self.new_data)
 
         # Feature engineering
@@ -30,5 +30,6 @@ class Predictor:
 
     def export_pred_to_csv(self, preds):
         pred_df = pd.DataFrame(preds)
+        pred_df.columns = ['Prediction_match']
         pred_concat_df = pd.concat([pred_df,self.new_data], axis=1)
         pred_concat_df.to_csv(output_dir + "/" + self.model_type + "_predictions.csv",index=False)
