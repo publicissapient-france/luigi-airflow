@@ -28,6 +28,7 @@ class Evaluator:
             params = best_estimator
             reg = ensemble.RandomForestClassifier(**params)
         else:
+            # TODO raise exception
             return 0
         return reg.fit(self.x_train,self.y_train)
 

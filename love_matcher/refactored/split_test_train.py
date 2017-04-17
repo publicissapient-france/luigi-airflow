@@ -4,8 +4,8 @@ from sklearn.model_selection import train_test_split
 class SplitTestTrain:
 
     def __init__(self, feat_eng_df, processed_features_names):
-        self.explanatory = processed_features_names
         self.feat_eng_df = feat_eng_df
+        self.explanatory = processed_features_names
 
     def create_train_test_splits(self):
         explanatory, explained = self.create_df_explained_explanatory("match")

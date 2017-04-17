@@ -1,9 +1,9 @@
 import airflow
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
-
-from love_matcher.refactored.airflow.task_classes import FeatureEngineeringTask, TuneTask, TrainTask, EvalTask, PredictTask
 from docs import *
+from love_matcher.refactored.airflow.task_classes import FeatureEngineeringTask, TuneTask, TrainTask, EvalTask, \
+    PredictTask
 
 model_type = "Decision_Tree"
 
@@ -44,3 +44,11 @@ predict = PythonOperator(
 predict.set_upstream(train)
 train.set_upstream(tune)
 tune.set_upstream(feature_engineering)
+
+# if __name__ == '__main__':
+#     start_date_time = datetime.datetime(2015, 6, 21)
+#     end_date_time = datetime.datetime(2015, 6, 21)
+#     ti = TaskInstance(tune, start_date_time)
+#     ti.run(ignore_task_deps=True, ignore_ti_state=True, test_mode=True)
+    #tune.run(start_date=start_date_time, end_date=end_date_time)
+
