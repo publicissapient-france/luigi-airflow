@@ -71,7 +71,8 @@ RUN apt-get remove --purge -yqq $buildDeps \
         /var/tmp/* \
         /usr/share/man \
         /usr/share/doc \
-        /usr/share/doc-base
+        /usr/share/doc-base \
+    && apt-get install vim less man
 
 COPY script/entrypoint.sh /entrypoint.sh
 
