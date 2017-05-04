@@ -23,10 +23,11 @@ parameters = [
 ]
 
 scores = ['precision', 'recall']
-
-output_dir = "/Users/sandrapietrowska/Documents/Trainings/luigi/luigi-airflow/output"
+workspace = "/usr/local/love_matcher_project/"
+#workspace = "/home/luigi/love_matcher_project/"
+#workspace = "/home/dolounet/dev/workshops/luigi-airflow/"
+output_dir = workspace + "output"
 best_parameters_file_path = "%s/best_parameters.json" % output_dir
 path_eval = "%s/eval.csv" % output_dir
 feature_engineered_dataset_file_path = "%s/feature_engineered_dataset.csv" % output_dir
 processed_features_names_file_path = "%s/processed_features_names.csv" % output_dir
-workspace="/Users/sandrapietrowska/Documents/Trainings/luigi/data_source/"
