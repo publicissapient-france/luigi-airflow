@@ -3,7 +3,8 @@
 AIRFLOW_HOME="/usr/local/airflow"
 CMD="airflow"
 TRY_LOOP="20"
-LOVE_MATCHER_HOME=/usr/local/airflow/love_matcher_project
+LOVE_MATCHER_HOME=/usr/local/love_matcher_project
+ln -s LOVE_MATCHER_HOME=/usr/local/love_matcher_project/scripts/love_matcher_airflow_dag.py $AIRFLOW_HOME/dags
 
 : ${REDIS_HOST:="redis"}
 : ${REDIS_PORT:="6379"}

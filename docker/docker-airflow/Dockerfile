@@ -63,7 +63,8 @@ RUN python -m pip install -U pip \
     && pip install celery[redis]==3.1.17
 
 USER root
-RUN apt-get remove --purge -yqq $buildDeps \
+RUN apt-get install -yqq vim less man \
+    && apt-get remove --purge -yqq $buildDeps \
     && apt-get clean \
     && rm -rf \
         /var/lib/apt/lists/* \
@@ -71,8 +72,7 @@ RUN apt-get remove --purge -yqq $buildDeps \
         /var/tmp/* \
         /usr/share/man \
         /usr/share/doc \
-        /usr/share/doc-base \
-    && apt-get install vim less man
+        /usr/share/doc-base
 
 COPY script/entrypoint.sh /entrypoint.sh
 

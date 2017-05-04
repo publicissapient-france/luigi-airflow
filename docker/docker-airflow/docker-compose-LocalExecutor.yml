@@ -21,7 +21,7 @@ services:
             - EXECUTOR=Local
         volumes:
             - ${AIRFLOW_DAGS}:/usr/local/airflow/dags
-            - ${LOVE_MATCHER_PROJECT}:/usr/local/airflow/love_matcher_project
+            - ${LOVE_MATCHER_PROJECT}:/usr/local/love_matcher_project
         ports:
             - "8078:8080"
         command: webserver
