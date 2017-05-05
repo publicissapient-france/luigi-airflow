@@ -2,7 +2,7 @@ import airflow
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 
-from love_matcher_exercices.run.airflow.task_classes import FeatureEngineeringTask, TrainTask, EvalTask, \
+from love_matcher_exercises.run.airflow.task_classes import FeatureEngineeringTask, TrainTask, EvalTask, \
     PredictTask
 
 model_type = "Decision_Tree"

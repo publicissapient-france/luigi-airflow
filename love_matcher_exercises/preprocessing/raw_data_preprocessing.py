@@ -15,7 +15,7 @@ class RawSetProcessing:
     @staticmethod
     # Remove ids with missing values
     def remove_missing_values(df):
-        # TODO : 1.1 Remove missing values.
+        # TODO : 1.1 Write function to remove missing values. Return dataset.
 
 
 
@@ -25,7 +25,7 @@ class RawSetProcessing:
 
     @staticmethod
     def drop_duplicated_values(df):
-        # TODO : 1.2 Remove duplicated values.
+        # TODO : 1.2 Write function to remove duplicated values. Return dataset.
 
 
 

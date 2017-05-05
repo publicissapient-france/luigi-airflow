@@ -2,7 +2,7 @@ import pandas as pd
 import unittest
 from pandas.util.testing import assert_frame_equal
 
-from love_matcher_exercices.preprocessing.raw_data_preprocessing import RawSetProcessing
+from love_matcher_exercises.preprocessing.raw_data_preprocessing import RawSetProcessing
 
 
 class RawSetProcessingTest(unittest.TestCase):
