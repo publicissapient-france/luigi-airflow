@@ -15,7 +15,7 @@ class RawSetProcessing:
     @staticmethod
     # Remove ids with missing values
     def remove_missing_values(df):
-        # TODO : 1.1 Enlever des données manquantes, vérification: test unitaire
+        # TODO : 1.1 Enlever des donnees manquantes, verification: test unitaire
         # sel_vars_filled_df = df.dropna()
         # pass
         sel_vars_filled_df = df.dropna()
@@ -23,7 +23,7 @@ class RawSetProcessing:
 
     @staticmethod
     def drop_duplicated_values(df):
-        # TODO : 1.2 Enlever des données dupliquées, vérification: test unitaire
+        # TODO : 1.2 Enlever des donnees dupliquees, verification: test unitaire
         # df = df.drop_duplicates()
         # pass
         df = df.drop_duplicates()

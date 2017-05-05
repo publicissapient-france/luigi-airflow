@@ -2,7 +2,7 @@ import airflow
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 
-from love_matcher.refactored.airflow.task_classes import FeatureEngineeringTask, TuneTask, TrainTask, EvalTask, \
+from love_matcher_exercices.run.airflow.task_classes import FeatureEngineeringTask, TrainTask, EvalTask, \
     PredictTask
 
 model_type = "Decision_Tree"
@@ -21,11 +21,6 @@ feature_engineering = PythonOperator(
     python_callable=FeatureEngineeringTask().run,
     dag=dag)
 
-tune = PythonOperator(
-    task_id='love_matcher_tune',
-    python_callable=TuneTask(model_type=model_type).run,
-    dag=dag)
-
 train = PythonOperator(
     task_id='love_matcher_train',
     python_callable=TrainTask(model_type=model_type).run,
@@ -42,6 +37,5 @@ predict = PythonOperator(
     dag=dag)
 
 predict.set_upstream(train)
-train.set_upstream(tune)
 eval.set_upstream(train)
-tune.set_upstream(feature_engineering)
+train.set_upstream(feature_engineering)
