@@ -13,8 +13,8 @@ class Trainer:
 
     def build_best_estimator(self):
         model = tree.DecisionTreeClassifier(max_depth = 6, min_samples_leaf = 30)
-        # self.estimator = model.fit(self.x_train, self.y_train)
-        # TODO 3.1: appliquer la methode fit du modele sur le train set
+        self.estimator = model.fit(self.x_train, self.y_train)
+        # TODO 2.1: appliquer la methode fit du modele sur le train set
         tree.export_graphviz(self.estimator, out_file= output_dir + "/tree.dot")
         return model, self.estimator
 

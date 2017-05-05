@@ -25,13 +25,13 @@ class Predictor:
         feature_engineering = FeatureEngineering(features=features)
         all_features_engineered_df, selected_features_df = feature_engineering.get_partner_features(dataset_df)
 
-        # Generate predictions
+        # Load model and generate predictions
         reg = self.load_estimator(model_target=output_dir)
         predictions_labels = reg.predict(selected_features_df)
-        return predictions_labels
 
-    def export_pred_to_csv(self, preds):
-        pred_df = pd.DataFrame(preds)
+        # Save predictions
+        pred_df = pd.DataFrame(predictions_labels)
         pred_df.columns = ['Prediction_match']
-        pred_concat_df = pd.concat([pred_df,self.new_data], axis=1)
+        pred_concat_df = pd.concat([pred_df,all_features_engineered_df], axis=1)
         pred_concat_df.to_csv(output_dir + "/" + self.model_type + "_predictions.csv",index=False)
+        return pred_concat_df
