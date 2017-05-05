@@ -23,11 +23,10 @@ class Evaluator:
         reg = self.load_estimator(model_target=output_dir)
         y_true, y_pred = self.y_test, reg.predict(self.x_test)
         # TODO: 4.1 Apply classification report function on real and predicted values and write output to file
-
-
-
+        # Solution
+        evaluation_report_test = classification_report(y_true, y_pred)
         with open(output_dir + "/" + self.model_type + "_eval.txt", "w") as text_file:
-            text_file.write()
+            text_file.write(evaluation_report_test)
 
         pass
 

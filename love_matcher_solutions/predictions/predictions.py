@@ -1,6 +1,6 @@
 import pandas as pd
-from love_matcher_exercices.feature_engineering.feature_engineering import FeatureEngineering
-from love_matcher_exercices.preprocessing.raw_data_preprocessing import RawSetProcessing
+from love_matcher_solutions.feature_engineering.feature_engineering import FeatureEngineering
+from love_matcher_solutions.preprocessing.raw_data_preprocessing import RawSetProcessing
 import warnings
 from config.conf import *
 from sklearn.externals import joblib

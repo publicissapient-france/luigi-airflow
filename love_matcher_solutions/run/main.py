@@ -1,12 +1,12 @@
 import pandas as pd
 
 from config.conf import *
-from love_matcher_exercices.feature_engineering.feature_engineering import FeatureEngineering
-from love_matcher_exercices.preprocessing.raw_data_preprocessing import RawSetProcessing
-from love_matcher_exercices.utils.split_train_test import SplitTestTrain
-from love_matcher_exercices.training.training import Trainer
-from love_matcher_exercices.evaluation.evaluation import Evaluator
-from love_matcher_exercices.predictions.predictions import Predictor
+from love_matcher_solutions.feature_engineering.feature_engineering import FeatureEngineering
+from love_matcher_solutions.preprocessing.raw_data_preprocessing import RawSetProcessing
+from love_matcher_solutions.utils.split_train_test import SplitTestTrain
+from love_matcher_solutions.training.training import Trainer
+from love_matcher_solutions.evaluation.evaluation import Evaluator
+from love_matcher_solutions.predictions.predictions import Predictor
 
 class MainClass:
     def __init__(self, model_type):
@@ -23,7 +23,6 @@ class MainClass:
         # Feature engineering
         feature_engineering = FeatureEngineering(features=features)
         all_features_engineered_df, selected_features_df = feature_engineering.get_partner_features(dataset_df)
-        print (all_features_engineered_df.shape)
 
         # Train
         split_test_train = SplitTestTrain(feat_eng_df=all_features_engineered_df, processed_features_names=selected_features_df)

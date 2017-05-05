@@ -16,21 +16,19 @@ class RawSetProcessing:
     # Remove ids with missing values
     def remove_missing_values(df):
         # TODO : 1.1 Remove missing values.
-
-
-
+        # Solution
+        sel_vars_filled_df = df.dropna()
         # To verify your solution please run luigi-airflow/test/test_preprocessing.py
-        pass
+        return sel_vars_filled_df
 
 
     @staticmethod
     def drop_duplicated_values(df):
         # TODO : 1.2 Remove duplicated values.
-
-
-
+        # Solution
+        df = df.drop_duplicates()
         # To verify your solution please run luigi-airflow/test/test_preprocessing.py
-        pass
+        return df
 
     # Combine processing stages
     def combiner_pipeline(self, dataframe):
