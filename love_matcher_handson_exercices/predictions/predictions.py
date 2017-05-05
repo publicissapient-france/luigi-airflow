@@ -2,7 +2,7 @@ import pandas as pd
 from love_matcher.refactored.feature_engineering.feature_engineering import FeatureEngineering
 from love_matcher.refactored.preprocessing.raw_set_processing import RawSetProcessing
 import warnings
-from docs.conf import *
+from config.conf import *
 from sklearn.externals import joblib
 
 class Predictor:

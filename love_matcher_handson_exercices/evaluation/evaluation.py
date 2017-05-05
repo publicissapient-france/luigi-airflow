@@ -3,7 +3,7 @@ import json
 from sklearn import ensemble
 from sklearn import tree
 from sklearn.metrics import classification_report
-from docs.conf import *
+from config.conf import *
 from sklearn.externals import joblib
 
 

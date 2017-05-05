@@ -1,6 +1,6 @@
 from sklearn import tree
 from sklearn.externals import joblib
-from docs.conf import *
+from config.conf import *
 
 class Trainer:
     def __init__(self, x_train, y_train, x_test, y_test, model_type):

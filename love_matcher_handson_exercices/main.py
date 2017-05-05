@@ -1,10 +1,6 @@
-import datetime
-import json
-
-import os
 import pandas as pd
 
-from docs.conf import *
+from config.conf import *
 from love_matcher_handson_exercices.feature_engineering.feature_engineering import FeatureEngineering
 from love_matcher_handson_exercices.preprocessing.raw_data_preprocessing import RawSetProcessing
 from love_matcher_handson_exercices.utils.split_train_test import SplitTestTrain
