@@ -1,6 +1,6 @@
 import pandas as pd
-from love_matcher.refactored.feature_engineering.feature_engineering import FeatureEngineering
-from love_matcher.refactored.preprocessing.raw_set_processing import RawSetProcessing
+from love_matcher_exercices.feature_engineering.feature_engineering import FeatureEngineering
+from love_matcher_exercices.preprocessing.raw_data_preprocessing import RawSetProcessing
 import warnings
 from config.conf import *
 from sklearn.externals import joblib
@@ -23,7 +23,7 @@ class Predictor:
 
         # Feature engineering
         feature_engineering = FeatureEngineering(features=features)
-        all_features_engineered_df, selected_features_df = feature_engineering.get_partner_features(dataset_df)
+        all_features_engineered_df, selected_features_df = feature_engineering.get_partner_features(dataset_df,train_set=False)
 
         # Load model and generate predictions
         reg = self.load_estimator(model_target=output_dir)
