@@ -11,10 +11,10 @@ services:
             - POSTGRES_DB=airflow
 
     webserver:
-        #image: puckel/docker-airflow:1.8.0
-        build:
-            dockerfile: Dockerfile
-            context: .
+        image: toinouf/airflow:testing
+        #build:
+        #    dockerfile: Dockerfile
+        #    context: .
         container_name: airflow-celery
         restart: always
         depends_on:
@@ -35,10 +35,10 @@ services:
         command: webserver
 
     flower:
-        #image: puckel/docker-airflow:1.8.0
-        build:
-            dockerfile: Dockerfile
-            context: .
+        image: toinouf/airflow:testing
+        #build:
+        #    dockerfile: Dockerfile
+        #    context: .
         restart: always
         depends_on:
             - redis
@@ -49,10 +49,10 @@ services:
         command: flower
 
     scheduler:
-        #image: puckel/docker-airflow:1.8.0
-        build:
-            dockerfile: Dockerfile
-            context: .
+        image: toinouf/airflow:testing
+        #build:
+        #    dockerfile: Dockerfile
+        #    context: .
         restart: always
         depends_on:
             - webserver
@@ -69,10 +69,10 @@ services:
         command: scheduler
 
     worker:
-        #image: puckel/docker-airflow:1.8.0
-        build:
-            dockerfile: Dockerfile
-            context: .
+        image: toinouf/airflow:testing
+        #build:
+        #    dockerfile: Dockerfile
+        #    context: .
         restart: always
         depends_on:
             - scheduler
