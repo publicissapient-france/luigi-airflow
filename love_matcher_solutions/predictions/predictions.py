@@ -31,7 +31,7 @@ class Predictor:
         # Load model and generate predictions
         estimator = self.load_estimator(model_target=output_dir)
         print("Predictions...")
-        # TODO: 6.1 Apply method predict on selected_features_df. Return predictions
+        # TODO: 5.1 Apply method predict on selected_features_df. Return predictions
         # TODO: Verify your solution by running test_predictions.py
         predictions = estimator.predict(selected_features_df)
         predictions_df = pd.DataFrame(predictions)

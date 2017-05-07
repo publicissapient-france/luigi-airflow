@@ -27,12 +27,12 @@ TODO
 4. Go to luigi-airflow/love_matcher_exercises/training
     - Open training.py and complete exercise 3.1
 5. Go to luigi-airflow/love_matcher_exercises/evaluation
-    - Open evaluation.py and complete exercise 4.1
+    - Open evaluation.py and complete exercises 4.1 and 4.2
 6. Go to luigi-airflow/love_matcher_exercises/predictions
-    - Open predictions.py to see the predictions are generated
+    - Open predictions.py and complete exercise 5.1
 
 ## Exercises : luigi
 1. Go to luigi-airflow/love_matcher_exercises/run/luigi
-       - Open main_luigi.py and complete exercises 5.1, 5.2 and 5.3
+       - Open main_luigi.py and complete exercises 6.1, 6.2 and 6.3
 
 
