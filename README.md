@@ -32,7 +32,10 @@ TODO
     - Open predictions.py and complete exercise 5.1
 
 ## Exercises : luigi
-1. Go to luigi-airflow/love_matcher_exercises/run/luigi
-       - Open main_luigi.py and complete exercises 6.1, 6.2 and 6.3
+Useful docs :
+http://luigi.readthedocs.io/en/stable/example_top_artists.html
+http://luigi.readthedocs.io/en/stable/api/luigi.local_target.html
 
+1. Go to luigi-airflow/love_matcher_exercises/run/luigi
+    - Open main_luigi.py and complete exercises 6.1, 6.2 and 6.3
 

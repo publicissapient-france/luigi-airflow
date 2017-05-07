@@ -14,24 +14,12 @@ from love_matcher_exercises.training.training import Trainer
 
 class FeatureEngineeringTask(luigi.Task):
     def output(self):
-        return luigi.LocalTarget(feature_engineered_dataset_file_path), \
-               luigi.LocalTarget(processed_features_names_file_path)
-
+        pass
     def run(self):
-        dataset = self.read_dataframe()
-
-        # Preprocessing
-        raw_dataset = RawSetProcessing(my_variables_selection)
-        dataset_df = raw_dataset.combiner_pipeline(dataframe=dataset)
-
-        # Feature engineering
-        feature_engineering = FeatureEngineering(features=features)
-        all_features_engineered_df, selected_features_df = feature_engineering.add_partner_features_train(dataset_df)
-        all_features_engineered_df.to_csv(feature_engineered_dataset_file_path, index=False)
-        selected_features_df.to_csv(processed_features_names_file_path, index=False)
+        pass
 
     def read_dataframe(self):
-        return pd.read_csv(data_source + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
+        pass
 
 
 class TrainTask(luigi.Task):
@@ -41,9 +29,8 @@ class TrainTask(luigi.Task):
         return luigi.LocalTarget(output_dir + '/' + str(self.model_type) + '_model.pkl')
 
     def requires(self):
-        # TODO 6.1 Complete with the name of the task
-
-        pass
+        # TODO 6.1
+        return FeatureEngineeringTask(self.model_type)
 
     def run(self):
         feat_eng_df = pd.read_csv(feature_engineered_dataset_file_path)
@@ -62,9 +49,8 @@ class EvaluationTask(luigi.Task):
     model_type = luigi.Parameter()
 
     def output(self):
-        # TODO 6.2 Complete with output path
-
-        pass
+        # TODO 6.2
+        return luigi.LocalTarget(output_dir + '/' + str(self.model_type) + '_eval.txt')
 
     def requires(self):
         return TrainTask(self.model_type)
@@ -88,9 +74,8 @@ class PredictionsTask(luigi.Task):
         return luigi.LocalTarget(output_dir + "/" + str(self.model_type) + "_predictions.csv")
 
     def requires(self):
-        # TODO 6.3 Complete with the name of the task
-
-        pass
+        # TODO 6.3
+        return EvaluationTask(self.model_type)
 
     def run(self):
         new_data = pd.read_csv(data_source + "Submission_set.csv", encoding="ISO-8859-1", sep=";")
