@@ -2,24 +2,17 @@
 
 ## Introduction
 
-TODO
+This project aims to teach and compare *luigi* and *airflow* projects through a machine
+learning workshop
 
-## The two subprojects
+## Execution environment
 
-This project is constituted of two distinct branches :
+The complete execution environment for Airflow implies many servers : Redis, RabbitMQ,
+PostgreSQL, an Airflow Scheduler and at least one Airflow worker. So, to make
+it simpler, we use docker-compose.
 
-- `main` which contains the different versions of the source code of the 
-  `Love Matcher` project
-- `execution-environment` which contains the execution environment setup
-  tools and instructions
+**Step 1 :** To set up your environment, follow instructions in the `docker` subdirectory.
 
-To get both branches on you workspace, you could use git worktree, as
-following, after having cloning this project :
-
-```
-git checkout master
-git worktree add ../luigi-airflow-execution-environment execution-environment
-```
 ## Source code explanations (branch `master`)
 TODO
 
