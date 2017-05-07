@@ -41,7 +41,7 @@ class TrainTask(luigi.Task):
         return luigi.LocalTarget(output_dir + '/' + str(self.model_type) + '_model.pkl')
 
     def requires(self):
-        # TODO 5.1 Complete with the name of the task
+        # TODO 6.1 Complete with the name of the task
         return FeatureEngineeringTask()
 
     def run(self):
@@ -61,7 +61,7 @@ class EvaluationTask(luigi.Task):
     model_type = luigi.Parameter()
 
     def output(self):
-        # TODO 5.2 Complete with output path
+        # TODO 6.2 Complete with output path
         return luigi.LocalTarget(output_dir + "/" + str(self.model_type) + "_eval.txt")
 
     def requires(self):
@@ -86,7 +86,7 @@ class PredictionsTask(luigi.Task):
         return luigi.LocalTarget(output_dir + "/" + str(self.model_type) + "_predictions.csv")
 
     def requires(self):
-        # TODO 5.3 Complete with the name of the task
+        # TODO 6.3 Complete with the name of the task
         return TrainTask(self.model_type)
 
     def run(self):
