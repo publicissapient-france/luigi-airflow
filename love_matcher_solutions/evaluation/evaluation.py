@@ -3,7 +3,6 @@ import json
 from sklearn import ensemble
 from sklearn import tree
 from sklearn.metrics import classification_report
-from config.conf import *
 from sklearn.externals import joblib
 
 
@@ -18,18 +17,17 @@ class Evaluator:
         self.y_test = y_test
         self.model_type = model_type
 
-    def eval(self):
+    def eval(self, output_dir):
         print ("Evaluation...")
-        reg = self.load_estimator(model_target=output_dir)
-        y_true, y_pred = self.y_test, reg.predict(self.x_test)
-        # TODO: 4.1 Apply classification report function on real and predicted values and write output to file
-        # Solution
-        evaluation_report_test = classification_report(y_true, y_pred)
-        with open(output_dir + "/" + self.model_type + "_eval.txt", "w") as text_file:
-            text_file.write(evaluation_report_test)
+        estimator = self.load_estimator(model_target=output_dir)
+        y_true, y_pred = self.y_test, estimator.predict(self.x_test)
+        # TODO: 4.1 Apply classification_report() function on true and predicted values
+        report = classification_report(y_true, y_pred)
 
-        pass
+        with open(output_dir + self.model_type + "_eval.txt", "w") as text_file:
+            # TODO: 4.2 Write report to file
+            # TODO: Verify your solution by running test_evaluation.py
+            text_file.write(report)
 
     def load_estimator(self, model_target):
-        loaded_estimator = joblib.load(model_target + '/' + self.model_type + '_model.pkl')
-        return loaded_estimator
+        return joblib.load(model_target + '/' + self.model_type + '_model.pkl')

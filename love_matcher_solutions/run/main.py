@@ -1,12 +1,13 @@
 import pandas as pd
 
 from config.conf import *
-from love_matcher_solutions.feature_engineering.feature_engineering import FeatureEngineering
-from love_matcher_solutions.preprocessing.raw_data_preprocessing import RawSetProcessing
-from love_matcher_solutions.utils.split_train_test import SplitTestTrain
-from love_matcher_solutions.training.training import Trainer
 from love_matcher_solutions.evaluation.evaluation import Evaluator
+from love_matcher_solutions.feature_engineering.feature_engineering import FeatureEngineering
 from love_matcher_solutions.predictions.predictions import Predictor
+from love_matcher_solutions.preprocessing.raw_data_preprocessing import RawSetProcessing
+from love_matcher_solutions.training.training import Trainer
+from love_matcher_solutions.utils.split_train_test import SplitTestTrain
+
 
 class MainClass:
     def __init__(self, model_type):
@@ -22,17 +23,20 @@ class MainClass:
 
         # Feature engineering
         feature_engineering = FeatureEngineering(features=features)
-        all_features_engineered_df, selected_features_df = feature_engineering.get_partner_features(dataset_df)
+        all_features_engineered_df, selected_features_df = feature_engineering.add_partner_features_train(dataset_df)
+        print(all_features_engineered_df.shape)
 
         # Train
-        split_test_train = SplitTestTrain(feat_eng_df=all_features_engineered_df, processed_features_names=selected_features_df)
+        split_test_train = SplitTestTrain(feat_eng_df=all_features_engineered_df,
+                                          processed_features_names=selected_features_df)
         x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
         train = Trainer(x_train, y_train, x_test, y_test, model_type=self.model_type)
         train.save_estimator(output_dir)
 
         # Evaluation
-        evaluation = Evaluator(x_train=x_train, x_test=x_test, y_train=y_train, y_test=y_test, model_type = self.model_type)
-        evaluation.eval()
+        evaluation = Evaluator(x_train=x_train, x_test=x_test, y_train=y_train, y_test=y_test,
+                               model_type=self.model_type)
+        evaluation.eval(output_dir)
 
         # Predictions
         predictions = Predictor(new_data=new_data, model_type=self.model_type)
@@ -41,7 +45,7 @@ class MainClass:
         predictions.predict(estimator)
 
     def read_dataframe(self, filename, sep=","):
-        return pd.read_csv(workspace + filename, sep=sep, encoding="ISO-8859-1")
+        return pd.read_csv(data_source + filename, sep=sep, encoding="ISO-8859-1")
 
 
 if __name__ == '__main__':

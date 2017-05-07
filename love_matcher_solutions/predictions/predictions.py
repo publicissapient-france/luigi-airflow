@@ -1,9 +1,12 @@
+import warnings
+
 import pandas as pd
+from sklearn.externals import joblib
+
+from config.conf import *
 from love_matcher_solutions.feature_engineering.feature_engineering import FeatureEngineering
 from love_matcher_solutions.preprocessing.raw_data_preprocessing import RawSetProcessing
-import warnings
-from config.conf import *
-from sklearn.externals import joblib
+
 
 class Predictor:
     warnings.filterwarnings("ignore")
@@ -23,16 +26,18 @@ class Predictor:
 
         # Feature engineering
         feature_engineering = FeatureEngineering(features=features)
-        all_features_engineered_df, selected_features_df = feature_engineering.get_partner_features(dataset_df,train_set=False)
+        all_features_engineered_df, selected_features_df = feature_engineering.add_partner_features_test(dataset_df)
 
         # Load model and generate predictions
-        reg = self.load_estimator(model_target=output_dir)
-        print ("Predictions...")
-        predictions_labels = reg.predict(selected_features_df)
+        estimator = self.load_estimator(model_target=output_dir)
+        print("Predictions...")
+        # TODO: 6.1 Apply method predict on selected_features_df. Return predictions
+        # TODO: Verify your solution by running test_predictions.py
+        predictions = estimator.predict(selected_features_df)
+        predictions_df = pd.DataFrame(predictions)
 
         # Save predictions
-        pred_df = pd.DataFrame(predictions_labels)
-        pred_df.columns = ['Prediction_match']
-        pred_concat_df = pd.concat([pred_df,all_features_engineered_df], axis=1)
-        pred_concat_df.to_csv(output_dir + "/" + self.model_type + "_predictions.csv",index=False)
-        return pred_concat_df
+        predictions_df.columns = ['Prediction_match']
+        predictions_concat_df = pd.concat([predictions_df, all_features_engineered_df], axis=1)
+        predictions_concat_df.to_csv(output_dir + "/" + self.model_type + "_predictions.csv", index=False)
+        return predictions_concat_df

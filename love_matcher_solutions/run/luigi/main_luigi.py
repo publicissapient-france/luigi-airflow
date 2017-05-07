@@ -26,12 +26,12 @@ class FeatureEngineeringTask(luigi.Task):
 
         # Feature engineering
         feature_engineering = FeatureEngineering(features=features)
-        all_features_engineered_df, selected_features_df = feature_engineering.get_partner_features(dataset_df)
+        all_features_engineered_df, selected_features_df = feature_engineering.add_partner_features_train(dataset_df)
         all_features_engineered_df.to_csv(feature_engineered_dataset_file_path, index=False)
         selected_features_df.to_csv(processed_features_names_file_path, index=False)
 
     def read_dataframe(self):
-        return pd.read_csv(workspace + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
+        return pd.read_csv(data_source + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
 
 
 class TrainTask(luigi.Task):
@@ -41,7 +41,7 @@ class TrainTask(luigi.Task):
         return luigi.LocalTarget(output_dir + '/' + str(self.model_type) + '_model.pkl')
 
     def requires(self):
-        # TODO: Solution 5.1
+        # TODO 5.1 Complete with the name of the task
         return FeatureEngineeringTask()
 
     def run(self):
@@ -53,7 +53,7 @@ class TrainTask(luigi.Task):
 
         train = Trainer(x_train, y_train, x_test, y_test, model_type=str(self.model_type))
         train.save_estimator(output_dir)
-        estimator = train.combiner_pipeline()
+        estimator = train.build_best_estimator()
         print(estimator)
 
 
@@ -61,7 +61,7 @@ class EvaluationTask(luigi.Task):
     model_type = luigi.Parameter()
 
     def output(self):
-        # TODO: Solution 5.2
+        # TODO 5.2 Complete with output path
         return luigi.LocalTarget(output_dir + "/" + str(self.model_type) + "_eval.txt")
 
     def requires(self):
@@ -86,11 +86,11 @@ class PredictionsTask(luigi.Task):
         return luigi.LocalTarget(output_dir + "/" + str(self.model_type) + "_predictions.csv")
 
     def requires(self):
-        # TODO: Solution 5.3
+        # TODO 5.3 Complete with the name of the task
         return TrainTask(self.model_type)
 
     def run(self):
-        new_data = pd.read_csv(workspace + "Submission_set.csv", encoding="ISO-8859-1", sep=";")
+        new_data = pd.read_csv(data_source + "Submission_set.csv", encoding="ISO-8859-1", sep=";")
         predictions = Predictor(new_data=new_data, model_type=str(self.model_type))
         estimator = predictions.load_estimator(output_dir)
         predictions.predict(estimator)
@@ -106,4 +106,4 @@ class GeneratePredictions(luigi.WrapperTask):
                PredictionsTask(model_type=self.model_type)
 
 
-# TODO : luigi --module love_matcher_solutions.run.luigi.main_luigi GeneratePredictions
+        # TODO : luigi --module love_matcher_exercises.run.luigi.main_luigi GeneratePredictions

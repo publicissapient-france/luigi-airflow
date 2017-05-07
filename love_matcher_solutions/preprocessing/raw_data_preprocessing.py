@@ -1,3 +1,6 @@
+from pandas.core.frame import DataFrame
+
+
 class RawSetProcessing:
     """
     This class aims to load and clean the dataset.
@@ -15,20 +18,15 @@ class RawSetProcessing:
     @staticmethod
     # Remove ids with missing values
     def remove_missing_values(df):
-        # TODO : 1.1 Remove missing values.
-        # Solution
-        sel_vars_filled_df = df.dropna()
-        # To verify your solution please run luigi-airflow/test/test_preprocessing.py
-        return sel_vars_filled_df
+        # TODO : 1.1 Write function to remove missing values. Return dataset.
+        return df.dropna()
 
 
     @staticmethod
     def drop_duplicated_values(df):
-        # TODO : 1.2 Remove duplicated values.
-        # Solution
-        df = df.drop_duplicates()
-        # To verify your solution please run luigi-airflow/test/test_preprocessing.py
-        return df
+        # TODO : 1.2 Write function to remove duplicated values. Return dataset.
+        # TODO: Verify your solution by running test_preprocessing.py
+        return df.drop_duplicates()
 
     # Combine processing stages
     def combiner_pipeline(self, dataframe):

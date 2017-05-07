@@ -26,12 +26,12 @@ class FeatureEngineeringTask(luigi.Task):
 
         # Feature engineering
         feature_engineering = FeatureEngineering(features=features)
-        all_features_engineered_df, selected_features_df = feature_engineering.get_partner_features(dataset_df)
+        all_features_engineered_df, selected_features_df = feature_engineering.add_partner_features_train(dataset_df)
         all_features_engineered_df.to_csv(feature_engineered_dataset_file_path, index=False)
         selected_features_df.to_csv(processed_features_names_file_path, index=False)
 
     def read_dataframe(self):
-        return pd.read_csv(workspace + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
+        return pd.read_csv(data_source + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
 
 
 class TrainTask(luigi.Task):
@@ -54,7 +54,7 @@ class TrainTask(luigi.Task):
 
         train = Trainer(x_train, y_train, x_test, y_test, model_type=str(self.model_type))
         train.save_estimator(output_dir)
-        estimator = train.combiner_pipeline()
+        estimator = train.build_best_estimator()
         print(estimator)
 
 
@@ -93,7 +93,7 @@ class PredictionsTask(luigi.Task):
         pass
 
     def run(self):
-        new_data = pd.read_csv(workspace + "Submission_set.csv", encoding="ISO-8859-1", sep=";")
+        new_data = pd.read_csv(data_source + "Submission_set.csv", encoding="ISO-8859-1", sep=";")
         predictions = Predictor(new_data=new_data, model_type=str(self.model_type))
         estimator = predictions.load_estimator(output_dir)
         predictions.predict(estimator)

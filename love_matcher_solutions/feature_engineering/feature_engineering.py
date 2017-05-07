@@ -9,13 +9,18 @@ class FeatureEngineering:
         self.suffix_2 = suffix_2
         self.label = label
 
-    def get_partner_features(self, df, train_set=True):
-        print ("Feature engineering...")
+    def add_partner_features_train(self, df):
+        return self.add_partner_features(df, ['pid', 'match'])
+
+    def add_partner_features_test(self, df):
+        return self.add_partner_features(df, ['pid'])
+
+    def add_partner_features(self, df, variables_to_drop):
+        print("Feature engineering...")
         df_partner = df.copy()
-        if train_set:
-            df_partner = df_partner.drop(['pid','match'], 1).drop_duplicates()
-        else:
-            df_partner = df_partner.drop(['pid'], 1).drop_duplicates()
+        # Match variable exists only in trainset
+        df_partner = df_partner.drop(variables_to_drop, 1).drop_duplicates()
+        # Add partner features
         merged_datasets = df.merge(df_partner, how="inner", left_on="pid", right_on="iid",
                                    suffixes=(self.suffix_1, self.suffix_2))
         return merged_datasets, merged_datasets[self.process_features_names("_me", "_partner")]

@@ -1,5 +1,7 @@
+import os
 from sklearn import tree
 from sklearn.externals import joblib
+
 from config.conf import *
 
 
@@ -9,23 +11,21 @@ class Trainer:
         self.y_train = y_train
         self.x_test = x_test
         self.y_test = y_test
-        self.estimator = None
         self.model_type = model_type
+        self.model = tree.DecisionTreeClassifier(max_depth=6, min_samples_leaf=30)
+
+    def save_estimator(self, model_dir_path):
+        print("Saving model...")
+        if not os.path.exists(model_dir_path):
+            os.mkdir(model_dir_path)
+        self.build_best_estimator()
+        joblib.dump(self.model, model_dir_path + self.model_type + '_model.pkl')
 
     def build_best_estimator(self):
-        model = tree.DecisionTreeClassifier(max_depth = 6, min_samples_leaf = 30)
-        # TODO 3.1: appliquer la methode fit du modele sur le train set
-        # Solution
-        self.estimator = model.fit(self.x_train, self.y_train)
-        tree.export_graphviz(self.estimator, out_file= output_dir + "/tree.dot")
-        return model, self.estimator
+        print("Training...")
+        # TODO: 3.1: Apply fit method of model object on train set,
+        # TODO: verify you answer by running test_training.py
+        self.model.fit(self.x_train, self.y_train)
 
-    def save_estimator(self, model_target):
-        print ("Saving model...")
-        model, estimator = self.build_best_estimator()
-        joblib.dump(model, model_target + '/' + self.model_type + '_model.pkl')
-
-    def combiner_pipeline(self):
-        print ("Training...")
-        self.estimator = self.build_best_estimator()[1]
-        return self.estimator
+        # Export model visualisation
+        tree.export_graphviz(self.model, out_file=output_dir + "/tree.dot")

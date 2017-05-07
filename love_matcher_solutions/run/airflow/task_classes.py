@@ -25,11 +25,11 @@ class FeatureEngineeringTask:
 
         # Feature engineering
         feature_engineering = FeatureEngineering(features=features)
-        feat_eng_df, processed_features_names = feature_engineering.get_partner_features(dataset_df)
+        feat_eng_df, processed_features_names = feature_engineering.add_partner_features_train(dataset_df)
         feat_eng_df.to_csv(feature_engineered_dataset_file_path)
 
     def read_dataframe(self):
-        return pd.read_csv(workspace + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
+        return pd.read_csv(data_source + "Speed_Dating_Data.csv", encoding="ISO-8859-1")
 
 
 
@@ -45,7 +45,7 @@ class TrainTask:
         x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
         train = Trainer(x_train, y_train, x_test, y_test, model_type=str(self.model_type))
         train.save_estimator(output_dir)
-        estimator, score_train, score_test = train.combiner_pipeline()
+        estimator, score_train, score_test = train.build_best_estimator()
         print(estimator, score_train, score_test)
         end_time = datetime.datetime.now()
         print("Total time spent %s" % (end_time - self.start_time))
@@ -73,7 +73,7 @@ class PredictTask:
         self.model_type = model_type
 
     def run(self):
-        new_data = pd.read_csv(workspace + "Submission_set.csv", encoding="ISO-8859-1", sep=";")
+        new_data = pd.read_csv(data_source + "Submission_set.csv", encoding="ISO-8859-1", sep=";")
         predictions = Predictor(new_data=new_data, model_type=str(self.model_type))
         estimator = predictions.load_estimator(output_dir)
         predictions_applied = predictions.predict(estimator)
