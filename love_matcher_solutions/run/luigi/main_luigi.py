@@ -106,4 +106,4 @@ class GeneratePredictions(luigi.WrapperTask):
                PredictionsTask(model_type=self.model_type)
 
 
-        # TODO : luigi --module love_matcher_exercises.run.luigi.main_luigi GeneratePredictions
+        # TODO : luigi --module love_matcher_solutions.run.luigi.main_luigi GeneratePredictions
