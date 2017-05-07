@@ -9,9 +9,9 @@ learning workshop
 
 The complete execution environment for Airflow implies many servers : Redis, RabbitMQ,
 PostgreSQL, an Airflow Scheduler and at least one Airflow worker. So, to make
-it simpler, we use docker-compose.
+it simpler, we use *docker-compose*.
 
-**Step 1 :** To set up your environment, follow instructions in the `docker` subdirectory.
+**Prerequisites :** To set up your environment, follow instructions in the `docker` subdirectory.
 
 ## Source code explanations (branch `master`)
 TODO
