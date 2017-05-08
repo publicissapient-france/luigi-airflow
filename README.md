@@ -39,3 +39,8 @@ http://luigi.readthedocs.io/en/stable/api/luigi.local_target.html
 1. Go to luigi-airflow/love_matcher_exercises/run/luigi
     - Open main_luigi.py and complete all tasks 
 
+## Exercises : airflow
+Useful docs :
+https://airflow.incubator.apache.org/
+
+1. Go to luigi-airflow/love_matcher_exercises/dags/love_matcher_airflow_dag.py

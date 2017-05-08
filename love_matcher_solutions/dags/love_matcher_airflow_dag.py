@@ -2,7 +2,7 @@ import airflow
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 
-from love_matcher_exercises.run.airflow.task_classes import FeatureEngineeringTask, TrainTask, EvalTask, \
+from love_matcher_solutions.run.airflow.task_classes import FeatureEngineeringTask, TrainTask, EvalTask, \
     PredictTask
 
 model_type = "Decision_Tree"
@@ -36,6 +36,5 @@ predict = PythonOperator(
     python_callable=PredictTask(model_type=model_type).run,
     dag=dag)
 
-predict.set_upstream(train)
-eval.set_upstream(train)
-train.set_upstream(feature_engineering)
+feature_engineering >> train >> [predict, eval]
+

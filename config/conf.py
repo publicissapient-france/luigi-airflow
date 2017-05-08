@@ -26,7 +26,8 @@ parameters = [
 
 scores = ['precision', 'recall']
 
-workspace = "/home/dolounet/dev/workshops/luigi-airflow-hands-on/"
+#workspace = "/home/dolounet/dev/workshops/luigi-airflow-hands-on/"
+workspace = "/usr/local/love_matcher_project/"
 output_dir = workspace + "output/"
 best_parameters_file_path = "%s/best_parameters.json" % output_dir
 path_eval = "%s/eval.csv" % output_dir

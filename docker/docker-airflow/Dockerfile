@@ -74,7 +74,6 @@ RUN apt-get install -yqq vim less man \
         /usr/share/doc \
         /usr/share/doc-base
 
-COPY script/entrypoint.sh /entrypoint.sh
 
 COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 RUN chown -R airflow: ${AIRFLOW_HOME}
@@ -83,4 +82,8 @@ USER airflow
 EXPOSE 8080 5555 8793
 
 WORKDIR ${AIRFLOW_HOME}
+USER root
+COPY script/entrypoint.sh /entrypoint.sh
+USER airflow
+
 ENTRYPOINT ["/entrypoint.sh"]

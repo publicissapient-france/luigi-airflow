@@ -28,7 +28,7 @@ services:
             - POSTGRES_PASSWORD=airflow
             - POSTGRES_DB=airflow
         volumes:
-            - ${AIRFLOW_DAGS}:/usr/local/airflow/dags
+            - ${LOVE_MATCHER_PROJECT}/love_matcher_exercises/dags:/usr/local/airflow/dags
             - ${LOVE_MATCHER_PROJECT}:/usr/local/love_matcher_project
         ports:
             - "8077:8080"
@@ -57,7 +57,7 @@ services:
         depends_on:
             - webserver
         volumes:
-            - ${AIRFLOW_DAGS}:/usr/local/airflow/dags
+            - ${LOVE_MATCHER_PROJECT}/love_matcher_exercises/dags:/usr/local/airflow/dags
             - ${LOVE_MATCHER_PROJECT}:/usr/local/love_matcher_project
         environment:
             - LOAD_EX=y
@@ -77,7 +77,7 @@ services:
         depends_on:
             - scheduler
         volumes:
-            - ${AIRFLOW_DAGS}:/usr/local/airflow/dags
+            - ${LOVE_MATCHER_PROJECT}/love_matcher_exercises/dags:/usr/local/airflow/dags
             - ${LOVE_MATCHER_PROJECT}:/usr/local/love_matcher_project
         environment:
             - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=

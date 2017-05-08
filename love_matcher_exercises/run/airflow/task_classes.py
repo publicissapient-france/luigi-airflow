@@ -45,8 +45,7 @@ class TrainTask:
         x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
         train = Trainer(x_train, y_train, x_test, y_test, model_type=str(self.model_type))
         train.save_estimator(output_dir)
-        estimator, score_train, score_test = train.build_best_estimator()
-        print(estimator, score_train, score_test)
+        train.build_best_estimator()
         end_time = datetime.datetime.now()
         print("Total time spent %s" % (end_time - self.start_time))
 
@@ -65,7 +64,7 @@ class EvalTask:
         split_test_train = SplitTestTrain(feat_eng_df=feat_eng_df, processed_features_names=processed_features_names_df)
         x_train, x_test, y_train, y_test = split_test_train.create_train_test_splits()
         evaluation = Evaluator(x_train=x_train, x_test=x_test, y_train=y_train, y_test=y_test, model_type = str(self.model_type))
-        evaluation.eval()
+        evaluation.eval(output_dir)
 
 
 class PredictTask:
