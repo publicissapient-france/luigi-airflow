@@ -11,7 +11,7 @@ services:
             - POSTGRES_DB=airflow
 
     webserver:
-        image: toinouf/airflow:testing
+        image: toinouf/airflow
         #build:
         #    dockerfile: Dockerfile
         #    context: .
@@ -35,7 +35,7 @@ services:
         command: webserver
 
     flower:
-        image: toinouf/airflow:testing
+        image: toinouf/airflow
         #build:
         #    dockerfile: Dockerfile
         #    context: .
@@ -49,7 +49,7 @@ services:
         command: flower
 
     scheduler:
-        image: toinouf/airflow:testing
+        image: toinouf/airflow
         #build:
         #    dockerfile: Dockerfile
         #    context: .
@@ -69,7 +69,7 @@ services:
         command: scheduler
 
     worker:
-        image: toinouf/airflow:testing
+        image: toinouf/airflow
         #build:
         #    dockerfile: Dockerfile
         #    context: .
